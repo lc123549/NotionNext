@@ -57,7 +57,7 @@ export default function NavBar(props) {
     siteConfig('CLAUDE_PROFILE_AVATAR', '', CONFIG) ||
     siteConfig('AVATAR') ||
     siteInfo?.icon ||
-    '/avatar.svg'
+    '/images/custom/claude-cat.jpg'
   const blogName = siteConfig('CLAUDE_BLOG_NAME')
   const author = siteConfig('AUTHOR') || blogName
   const bio = siteConfig('BIO')
