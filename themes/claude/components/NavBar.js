@@ -1,10 +1,8 @@
 import { siteConfig } from '@/lib/config'
-import { useGlobal } from '@/lib/global'
 import { resolveContactEmail } from '@/lib/plugins/mailEncrypt'
 import LazyImage from '@/components/LazyImage'
 import { MenuList } from './MenuList'
 import SmartLink from '@/components/SmartLink'
-import CONFIG from '../config'
 import { useEffect, useRef } from 'react'
 
 const getGithubUsername = githubUrl => {
@@ -52,12 +50,7 @@ function getOrCreateTerminalSession() {
  * 上方: 站名 → 下方: 导航链接 + 社交图标
  */
 export default function NavBar(props) {
-  const { siteInfo } = useGlobal()
-  const avatar =
-    siteConfig('CLAUDE_PROFILE_AVATAR', '', CONFIG) ||
-    siteConfig('AVATAR') ||
-    siteInfo?.icon ||
-    '/images/custom/claude-cat.jpg'
+  const avatar = '/images/custom/claude-cat.jpg'
   const blogName = siteConfig('CLAUDE_BLOG_NAME')
   const author = siteConfig('AUTHOR') || blogName
   const bio = siteConfig('BIO')
