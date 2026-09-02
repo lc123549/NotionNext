@@ -57,10 +57,12 @@ export async function getStaticProps({ params: { category }, locale }) {
 export async function getStaticPaths() {
   const from = 'category-paths'
   const { categoryOptions } = await fetchGlobalAllData({ from })
+  const options = Array.isArray(categoryOptions) ? categoryOptions : []
   return {
-    paths: Object.keys(categoryOptions).map(category => ({
-      params: { category: categoryOptions[category]?.name }
-    })),
+    paths: options
+      .map(category => category?.name)
+      .filter(Boolean)
+      .map(name => ({ params: { category: name } })),
     fallback: true
   }
 }
