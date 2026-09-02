@@ -619,8 +619,17 @@ export default function ProfileHome(props) {
               className='markdown-body'
               dangerouslySetInnerHTML={{ __html: readmeHtml }}
             />
-          ) : (
+          ) : readmeExcerpt ? (
             <p className='claude-readme-card-excerpt'>{readmeExcerpt}</p>
+          ) : (
+            <div className='markdown-body claude-readme-fallback'>
+              <h1>DMA梦</h1>
+              <p>半梦半醒的笔记本。</p>
+              <p>写一点代码，记一点生活，偶尔出神。这里没有完整的答案，只有还在进行中的句子。</p>
+              <blockquote>
+                <p>把白天没说完的话，写进夜里的梦。</p>
+              </blockquote>
+            </div>
           )}
         </div>
 
@@ -941,6 +950,11 @@ export default function ProfileHome(props) {
 
           <aside id='year-list-container' className='claude-year-switcher'>
             <div className='claude-year-switcher-sticky'>
+              <div className='claude-home-aside-card'>
+                <div className='claude-home-aside-kicker'>NOW</div>
+                <div className='claude-home-aside-status'>做梦中 · 在线</div>
+                <p className='claude-home-aside-note'>夜里亮一盏小灯，把没写完的句子慢慢补上。</p>
+              </div>
               <ul className='claude-year-filter-list'>
                 {years.map(year => {
                   const isActive = year === activeYear

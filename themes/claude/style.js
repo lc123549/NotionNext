@@ -716,7 +716,7 @@ const Style = () => {
       }
       .claude-profile-home-timeline {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) 116px;
+        grid-template-columns: minmax(0, 1fr) 168px;
         gap: 1.5rem;
         align-items: start;
       }
@@ -1570,11 +1570,41 @@ const Style = () => {
       .dark .claude-activity-date { color-scheme: dark; }
       .claude-year-switcher {
         width: 100%;
-        max-width: 128px;
+        max-width: 168px;
       }
       .claude-year-switcher-sticky {
         position: sticky;
         top: 74px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .claude-home-aside-card {
+        padding: 12px;
+        border: 1px solid var(--claude-home-card-border);
+        border-radius: 8px;
+        background: var(--claude-home-card-bg);
+      }
+      .claude-home-aside-kicker {
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        color: var(--claude-year-filter-text);
+        margin-bottom: 6px;
+      }
+      .claude-home-aside-status {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--claude-text-primary, inherit);
+        margin-bottom: 8px;
+      }
+      .claude-home-aside-note {
+        margin: 0;
+        font-size: 12px;
+        line-height: 1.55;
+        color: var(--claude-year-filter-text);
+      }
+      .claude-readme-fallback h1 {
+        margin-top: 0;
       }
       .claude-year-filter-list {
         list-style: none;

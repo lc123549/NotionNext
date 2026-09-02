@@ -1,7 +1,7 @@
 const CONFIG = {
   // 博客標題 雙語言
-  CLAUDE_BLOG_NAME: process.env.NEXT_PUBLIC_CLAUDE_BLOG_NAME || '活字印刷',
-  CLAUDE_BLOG_NAME_EN: process.env.NEXT_PUBLIC_CLAUDE_BLOG_NAME_EN || process.env.NEXT_PUBLIC_CLAUDE_BLOG_NAME || 'Typography',
+  CLAUDE_BLOG_NAME: process.env.NEXT_PUBLIC_CLAUDE_BLOG_NAME || 'DMA梦',
+  CLAUDE_BLOG_NAME_EN: process.env.NEXT_PUBLIC_CLAUDE_BLOG_NAME_EN || process.env.NEXT_PUBLIC_CLAUDE_BLOG_NAME || 'DMAMeng',
 
   CLAUDE_POST_AD_ENABLE: process.env.NEXT_PUBLIC_CLAUDE_POST_AD_ENABLE || false, // 文章列表是否插入广告
 
@@ -24,7 +24,7 @@ const CONFIG = {
 
   // GitHub 侧栏资料卡配置
   CLAUDE_PROFILE_AVATAR: process.env.NEXT_PUBLIC_CLAUDE_PROFILE_AVATAR || '', // 头像URL；留空则回退到 AVATAR/siteInfo.icon
-  CLAUDE_FOOTER_COPYRIGHT: process.env.NEXT_PUBLIC_CLAUDE_FOOTER_COPYRIGHT || '', // 例如：© 2023-2026 Yicheng；留空则使用 SINCE + AUTHOR
+  CLAUDE_FOOTER_COPYRIGHT: process.env.NEXT_PUBLIC_CLAUDE_FOOTER_COPYRIGHT || '© 2026 DMA梦', // 例如：© 2023-2026 Yicheng；留空则使用 SINCE + AUTHOR
 
   // README 渲染缓存（可由 Notion 配置文档中的同名字段覆盖）
   CLAUDE_README_CACHE_ENABLED:
