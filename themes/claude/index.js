@@ -121,8 +121,11 @@ const LayoutBase = props => {
         <div className='flex flex-1 overflow-hidden'>
           {/* ====== LEFT SIDEBAR — 导航栏 (桌面端) ====== */}
           {/* 使用 SidebarContent (React.memo) 避免客户端导航时重新加载侧边栏 */}
-          <div className='claude-sidebar hidden md:flex md:flex-col md:flex-shrink-0 md:w-[296px] lg:w-[320px] h-full overflow-y-auto overflow-x-hidden'>
-            <SidebarContent customNav={props.customNav} customMenu={props.customMenu} />
+          <div className='claude-sidebar hidden md:flex md:flex-col md:flex-shrink-0 md:w-[296px] lg:w-[320px] h-full overflow-hidden'>
+            <div className='claude-sidebar-nature' aria-hidden='true' />
+            <div className='claude-sidebar-glass'>
+              <SidebarContent customNav={props.customNav} customMenu={props.customMenu} />
+            </div>
           </div>
 
           {/* ====== CENTER — 主内容区 ====== */}

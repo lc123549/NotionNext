@@ -317,24 +317,56 @@ const Style = () => {
        * LEFT SIDEBAR — safe to transition (fixed width, no reflow)
        * ======================================== */
       .claude-sidebar {
-        background-color: var(--claude-sidebar-bg);
-        border-right: 1px solid var(--claude-border);
-        transition: background-color 0.15s ease, border-color 0.15s ease;
+        position: relative;
+        background-color: #c8d6cc;
+        border-right: 1px solid rgba(255, 255, 255, 0.28);
+      }
+      .claude-sidebar-nature {
+        position: absolute;
+        inset: 0;
+        background-image: url('/images/custom/sidebar-forest.jpg');
+        background-size: cover;
+        background-position: center top;
+        background-repeat: no-repeat;
+        z-index: 0;
+      }
+      .claude-sidebar-glass {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.22) 0%,
+          rgba(236, 244, 238, 0.38) 46%,
+          rgba(255, 255, 255, 0.5) 100%
+        );
+        backdrop-filter: blur(16px) saturate(1.15);
+        -webkit-backdrop-filter: blur(16px) saturate(1.15);
+        --claude-profile-name: #1c2a20;
+      }
+      .dark .claude-sidebar-glass {
+        background: linear-gradient(
+          180deg,
+          rgba(16, 22, 18, 0.42) 0%,
+          rgba(16, 22, 18, 0.58) 50%,
+          rgba(16, 22, 18, 0.66) 100%
+        );
+        --claude-profile-name: #f3f6f2;
       }
 
       .claude-sidebar-profile {
-        --width-limit:  min(100%, 320px);
-        max-width: --width-limit;
-        margin-left: max(
-          0px,
-          calc((100% - var(--width-limit))) / 2)
-        );
         display: flex;
         flex-direction: column;
-        gap: 0.875rem;
+        align-items: center;
+        gap: 0.75rem;
+        text-align: center;
       }
       .claude-profile-avatar-wrap {
-        width: 100%;
+        width: 108px;
         margin: 0 auto;
         position: relative;
       }
@@ -342,58 +374,47 @@ const Style = () => {
         user-select: none;
         -webkit-user-drag: none;
         -webkit-touch-callout: none;
-        width: 100%;
+        width: 108px;
+        height: 108px;
         aspect-ratio: 1 / 1;
         object-fit: cover;
         border-radius: 9999px;
-        border: 2px solid var(--claude-profile-border-strong);
+        border: 3px solid rgba(255, 255, 255, 0.72);
       }
       .claude-profile-heading {
-        margin-top: 0.5rem;
+        margin-top: 0.15rem;
+        width: 100%;
       }
       .claude-profile-name {
         box-sizing: border-box;
         color: var(--claude-profile-name);
         display: block;
-        font-family: -apple-system, system-ui, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
-        font-size: 24px;
+        font-family: -apple-system, system-ui, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+        font-size: 20px;
         font-weight: 600;
-        height: 30px;
-        line-height: 30px;
+        line-height: 1.3;
         overflow-wrap: break-word;
-        overflow-x: hidden;
-        overflow-y: hidden;
         width: 100%;
       }
       .claude-profile-bio {
-        border-top: 0 solid rgb(229 231 235);
-        border-right: 0 solid rgb(229 231 235);
-        border-bottom: 0 solid rgb(229 231 235);
-        border-left: 0 solid rgb(229 231 235);
         box-sizing: border-box;
         color: var(--claude-profile-name);
         display: block;
-        font-family: 'PingFang SC', -apple-system, system-ui, 'Hiragino Sans GB', 'Microsoft YaHei', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Segoe UI', 'Noto Sans SC', HarmonyOS_Regular, 'Helvetica Neue', Helvetica, 'Source Han Sans SC', Arial, sans-serif, 'Apple Color Emoji', 'Noto Sans CJK SC', 'Noto Sans SC';
-        font-feature-settings: normal;
-        font-size: 15px;
-        font-variation-settings: normal;
+        font-family: 'PingFang SC', -apple-system, system-ui, 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+        font-size: 13px;
         font-weight: 400;
-        height: 24px;
-        line-height: 24px;
-        tab-size: 4;
-        text-size-adjust: 100%;
-        unicode-bidi: isolate;
-        -webkit-font-smoothing: auto;
-        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-        width: 279px;
+        line-height: 1.55;
+        width: 100%;
         max-width: 100%;
         overflow-wrap: break-word;
+        opacity: 0.86;
       }
       .claude-profile-section {
-        border-top: 1px solid var(--claude-profile-divider-border);
-        padding-top: 16px;
-        margin-top: 16px;
+        width: 100%;
+        padding-top: 4px;
+        margin-top: 4px;
         box-sizing: border-box;
+        border-top: 0;
       }
       .claude-profile-contact-section {
         box-sizing: border-box;
@@ -523,23 +544,30 @@ const Style = () => {
         }
       }
       .claude-profile-contact-row {
-        display: flex;
+        display: inline-flex;
         align-items: center;
-        gap: 4px;
-        color: inherit;
+        justify-content: center;
+        gap: 8px;
+        color: var(--claude-profile-name);
         font-size: inherit;
         line-height: inherit;
         font-family: inherit;
-        font-weight: inherit;
+        font-weight: 500;
         text-decoration: none;
-        transition: color 0.15s ease;
         margin: 0;
-        padding: 0;
+        padding: 0.45rem 0.9rem;
         width: 100%;
         box-sizing: border-box;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.46);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+          background-color 0.2s ease;
       }
       .claude-profile-contact-row:hover {
-        color: var(--claude-sidebar-active-text);
+        color: var(--claude-profile-name);
+        background: rgba(255, 255, 255, 0.8);
+        transform: translateY(-2px);
       }
       .claude-profile-contact-icon {
         width: 16px;
@@ -571,33 +599,57 @@ const Style = () => {
       }
 
       /* Nav links */
+      .claude-capsule-nav {
+        gap: 8px;
+      }
       .claude-nav-link {
         font-family: var(--claude-body-font);
         color: var(--claude-profile-name);
         font-size: 0.875rem;
-        font-weight: 400;
-        padding: 0.3125rem 0.75rem;
-        border-radius: 6px;
-        transition: all 0.15s ease;
+        font-weight: 500;
+        padding: 0.55rem 1rem;
+        border-radius: 999px;
         display: flex;
         align-items: center;
-        gap: 4px;
+        justify-content: center;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.52);
+        border: 1px solid rgba(255, 255, 255, 0.72);
+        text-decoration: none;
+        transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+          background-color 0.2s ease,
+          border-color 0.2s ease;
       }
       .claude-nav-link:hover {
-        color: var(--claude-sidebar-active-text);
-        background-color: transparent;
+        color: var(--claude-profile-name);
+        background: rgba(255, 255, 255, 0.82);
+        transform: translateY(-3px) scale(1.03);
       }
-      .dark .claude-nav-link:hover {
-        background-color: transparent;
+      .dark .claude-sidebar-glass .claude-nav-link {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.16);
+        color: #f3f6f2;
+      }
+      .dark .claude-sidebar-glass .claude-nav-link:hover {
+        background: rgba(255, 255, 255, 0.18);
       }
       .claude-nav-link.active {
-        background-color: var(--claude-sidebar-active-bg);
-        color: var(--claude-sidebar-active-text);
-        font-weight: 500;
+        background: rgba(255, 255, 255, 0.88);
+        color: #1c2a20;
+        font-weight: 600;
+      }
+      .dark .claude-sidebar-glass .claude-nav-link.active {
+        background: rgba(255, 255, 255, 0.22);
+        color: #f3f6f2;
       }
       .claude-profile-nav-section .claude-nav-link {
-        border-radius: 0.375rem;
-        padding: 0.35rem 0;
+        border-radius: 999px;
+        padding: 0.55rem 1rem;
+      }
+      #nav-menu-mobile .claude-nav-link {
+        background: #ffffff;
+        border: 1px solid #e6ebe7;
+        justify-content: flex-start;
       }
       .claude-nav-icon,
       .claude-nav-icon-emoji {
@@ -700,6 +752,120 @@ const Style = () => {
       .claude-social-row a:hover {
         color: var(--claude-text-primary);
         transform: scale(1.15);
+      }
+
+      /* ========================================
+       * HOME LOUNGE
+       * ======================================== */
+      .claude-lounge {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.25rem;
+        padding-top: 1.5rem;
+        max-width: 640px;
+      }
+      .claude-lounge-kicker {
+        margin: 0;
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        color: var(--claude-text-tertiary);
+      }
+      .claude-lounge-lead {
+        margin: 0;
+        font-size: 1.35rem;
+        line-height: 1.7;
+        color: var(--claude-text-primary);
+        font-family: var(--claude-heading-font);
+      }
+      .claude-lounge-capsules {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 0.5rem;
+      }
+      .claude-lounge-capsule,
+      .claude-lounge-post {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 22px;
+        border-radius: 999px;
+        background: #ffffff;
+        border: 1px solid #e6ebe7;
+        color: var(--claude-text-primary);
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 500;
+        transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+          background-color 0.2s ease,
+          border-color 0.2s ease;
+      }
+      .claude-lounge-capsule:hover,
+      .claude-lounge-post:hover {
+        transform: translateY(-4px) scale(1.03);
+        background: #f7faf7;
+        border-color: #d5e0d6;
+        color: var(--claude-text-primary);
+      }
+      .claude-lounge-capsule-icon {
+        font-size: 0.85rem;
+        opacity: 0.75;
+      }
+      .claude-lounge-recent {
+        width: 100%;
+        margin-top: 1.25rem;
+      }
+      .claude-lounge-recent-title {
+        margin: 0 0 12px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        color: var(--claude-text-tertiary);
+      }
+      .claude-lounge-recent-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .claude-lounge-post {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .claude-lounge-post-title {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .claude-lounge-post-meta {
+        flex-shrink: 0;
+        font-size: 0.75rem;
+        color: var(--claude-text-tertiary);
+        font-weight: 400;
+      }
+      .dark .claude-lounge-capsule,
+      .dark .claude-lounge-post {
+        background: rgba(255, 255, 255, 0.04);
+        border-color: rgba(255, 255, 255, 0.1);
+      }
+      .dark .claude-lounge-capsule:hover,
+      .dark .claude-lounge-post:hover {
+        background: rgba(255, 255, 255, 0.08);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .claude-nav-link,
+        .claude-profile-contact-row,
+        .claude-lounge-capsule,
+        .claude-lounge-post {
+          transition: none;
+        }
+        .claude-nav-link:hover,
+        .claude-profile-contact-row:hover,
+        .claude-lounge-capsule:hover,
+        .claude-lounge-post:hover {
+          transform: none;
+        }
       }
 
       /* ========================================
@@ -2725,6 +2891,8 @@ const Style = () => {
         padding-left: 0.75rem;
         padding-right: 0.75rem;
         text-align: center;
+        color: var(--claude-profile-name);
+        opacity: 0.78;
       }
 
       /* Disable transitions only during color-mode switching */

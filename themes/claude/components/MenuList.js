@@ -137,7 +137,7 @@ export const MenuList = ({ customNav, customMenu }) => {
 
   return (
     <>
-      <div id='nav-menu-pc' className='hidden md:flex md:flex-col md:gap-0.5'>
+      <div id='nav-menu-pc' className='claude-capsule-nav hidden md:flex md:flex-col'>
         {links.map((link, index) =>
           link.subMenus?.length
             ? renderGroup({ ...link, id: link.id ?? `menu-${index}` })
@@ -145,7 +145,7 @@ export const MenuList = ({ customNav, customMenu }) => {
         )}
       </div>
 
-      <div id='nav-menu-mobile' className='flex md:hidden flex-col gap-0.5 w-full'>
+      <div id='nav-menu-mobile' className='claude-capsule-nav flex md:hidden flex-col w-full'>
         {links.map((link, index) =>
           link.subMenus?.length
             ? renderGroup({ ...link, id: link.id ?? `menu-${index}` })
