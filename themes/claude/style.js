@@ -946,6 +946,105 @@ const Style = () => {
         line-height: 1.7;
         font-size: 0.95rem;
       }
+      .claude-readme-cover h1 {
+        margin-top: 0.2rem;
+        margin-bottom: 0.5rem;
+      }
+      .claude-readme-kicker {
+        margin: 0 0 0.35rem;
+        font-family: "Monaspace Neon", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+        font-size: 12px;
+        letter-spacing: 0.04em;
+        color: var(--claude-year-filter-text);
+      }
+      .claude-readme-lead {
+        margin: 0 0 1rem;
+        font-size: 1.05rem;
+        line-height: 1.6;
+        color: var(--claude-text-primary, inherit);
+      }
+      .claude-readme-links a {
+        color: var(--fgColor-accent, #0969da);
+        text-decoration: none;
+      }
+      .claude-readme-links a:hover {
+        text-decoration: underline;
+      }
+      .claude-pinned-section {
+        display: block;
+      }
+      .claude-pinned-title {
+        box-sizing: border-box;
+        color: var(--claude-gh-fg-default);
+        font-family: var(--claude-gh-font-family);
+        font-size: var(--h4-size, 16px);
+        font-weight: 400;
+        line-height: 24px;
+        margin: 0 0 8px;
+      }
+      .claude-pinned-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+      .claude-pinned-card {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        min-height: 108px;
+        padding: 16px;
+        border: 1px solid var(--claude-home-card-border);
+        border-radius: 6px;
+        background: var(--claude-home-card-bg);
+        color: inherit;
+        text-decoration: none;
+      }
+      .claude-pinned-card:hover {
+        background: var(--claude-bg);
+        border-color: var(--claude-year-filter-text);
+      }
+      .claude-pinned-card-kicker {
+        font-size: 12px;
+        color: var(--claude-year-filter-text);
+      }
+      .claude-pinned-card-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--fgColor-accent, #0969da);
+        line-height: 1.4;
+      }
+      .claude-pinned-card-summary {
+        font-size: 12px;
+        line-height: 1.5;
+        color: var(--claude-text-secondary, var(--claude-year-filter-text));
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .claude-home-aside-links {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .claude-home-aside-links a,
+      .claude-home-aside-latest {
+        color: var(--fgColor-accent, #0969da);
+        text-decoration: none;
+        font-size: 13px;
+        line-height: 1.4;
+      }
+      .claude-home-aside-links a:hover,
+      .claude-home-aside-latest:hover {
+        text-decoration: underline;
+      }
+      .claude-home-aside-latest {
+        display: block;
+        font-weight: 600;
+      }
       .claude-contrib-card {
         background: var(--claude-bg);
         padding: 1rem 1rem 0.875rem;
@@ -1603,7 +1702,8 @@ const Style = () => {
         line-height: 1.55;
         color: var(--claude-year-filter-text);
       }
-      .claude-readme-fallback h1 {
+      .claude-readme-fallback h1,
+      .claude-readme-cover h1 {
         margin-top: 0;
       }
       .claude-year-filter-list {
@@ -1686,7 +1786,21 @@ const Style = () => {
           grid-template-columns: 1fr;
         }
         .claude-year-switcher {
+          display: block;
+          max-width: none;
+          order: -1;
+        }
+        .claude-year-switcher-sticky {
+          position: static;
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+          gap: 8px;
+        }
+        .claude-year-filter-list {
           display: none;
+        }
+        .claude-pinned-grid {
+          grid-template-columns: 1fr;
         }
         .claude-activity-header {
           display: flex;

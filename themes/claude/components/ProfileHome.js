@@ -154,13 +154,30 @@ const sanitizeReadmeHtml = html => {
     .replace(/\shref\s*=\s*(['"])\s*javascript:[\s\S]*?\1/gi, ' href="#"')
 }
 
+const HOME_LINKS = [
+  { href: '/archive', label: '归档' },
+  { href: '/category', label: '分类' },
+  { href: '/tag', label: '标签' }
+]
+
 export default function ProfileHome(props) {
-  const { posts = [], readmePage, contributionEvents: persistedContributionEvents = [] } = props
+  const {
+    posts = [],
+    latestPosts = [],
+    readmePage,
+    contributionEvents: persistedContributionEvents = []
+  } = props
   const heatmapGridRef = useRef(null)
   const tooltipTimerRef = useRef(null)
   const [contribCellSize, setContribCellSize] = useState(11)
   const [heatmapTooltip, setHeatmapTooltip] = useState(null)
   const authorName = siteConfig('AUTHOR') || siteConfig('CLAUDE_BLOG_NAME', '', CONFIG) || 'Author'
+  const bio = siteConfig('BIO') || '把白天没说完的话，写进夜里的梦。'
+
+  const pinnedPosts = useMemo(() => {
+    const source = (latestPosts.length ? latestPosts : posts) || []
+    return source.filter(post => post && !isReadmeLikePage(post)).slice(0, 4)
+  }, [latestPosts, posts])
 
   const readmeSource = useMemo(() => {
     if (readmePage) return readmePage
@@ -622,16 +639,55 @@ export default function ProfileHome(props) {
           ) : readmeExcerpt ? (
             <p className='claude-readme-card-excerpt'>{readmeExcerpt}</p>
           ) : (
-            <div className='markdown-body claude-readme-fallback'>
-              <h1>DMA梦</h1>
-              <p>半梦半醒的笔记本。</p>
-              <p>写一点代码，记一点生活，偶尔出神。这里没有完整的答案，只有还在进行中的句子。</p>
-              <blockquote>
-                <p>把白天没说完的话，写进夜里的梦。</p>
-              </blockquote>
+            <div className='markdown-body claude-readme-cover'>
+              <p className='claude-readme-kicker'>profile / DMA梦</p>
+              <h1>{authorName}</h1>
+              <p className='claude-readme-lead'>{bio}</p>
+              <p>
+                半梦半醒的笔记本。写一点代码，记一点生活，偶尔出神。这里没有完整的答案，只有还在进行中的句子。
+              </p>
+              <h2>现在在做</h2>
+              <ul>
+                <li>把这个站从空壳住进去</li>
+                <li>收集第一批真正想留下的文字</li>
+                <li>夜里写，白天不一定发</li>
+              </ul>
+              <h2>入口</h2>
+              <p className='claude-readme-links'>
+                {HOME_LINKS.map((link, index) => (
+                  <span key={link.href}>
+                    {index > 0 ? ' · ' : ''}
+                    <SmartLink href={link.href}>{link.label}</SmartLink>
+                  </span>
+                ))}
+              </p>
             </div>
           )}
         </div>
+
+        {pinnedPosts.length > 0 && (
+          <section className='claude-pinned-section'>
+            <h2 className='claude-pinned-title'>Pinned</h2>
+            <div className='claude-pinned-grid'>
+              {pinnedPosts.map(post => (
+                <SmartLink
+                  key={post.id || post.slug}
+                  href={post.href || `/${post.slug}`}
+                  className='claude-pinned-card'>
+                  <span className='claude-pinned-card-kicker'>
+                    {post.category || 'Post'}
+                  </span>
+                  <span className='claude-pinned-card-title'>
+                    {post.title || '未命名'}
+                  </span>
+                  {post.summary && (
+                    <span className='claude-pinned-card-summary'>{post.summary}</span>
+                  )}
+                </SmartLink>
+              ))}
+            </div>
+          </section>
+        )}
 
         <div className='claude-profile-home-timeline'>
           <div className='claude-profile-home-timeline-main'>
@@ -781,7 +837,7 @@ export default function ProfileHome(props) {
                     )}
                     <div className='claude-activity-empty-wrap'>
                       <div className='claude-activity-empty'>
-                        {`${authorName} had no activity during this period.`}
+                        {`${authorName} 这段时间还没写下新句子。发第一篇之后，这里和贡献图会一起亮起来。`}
                       </div>
                     </div>
                   </div>
@@ -952,9 +1008,31 @@ export default function ProfileHome(props) {
             <div className='claude-year-switcher-sticky'>
               <div className='claude-home-aside-card'>
                 <div className='claude-home-aside-kicker'>NOW</div>
-                <div className='claude-home-aside-status'>做梦中 · 在线</div>
-                <p className='claude-home-aside-note'>夜里亮一盏小灯，把没写完的句子慢慢补上。</p>
+                <div className='claude-home-aside-status'>做梦中 · 在写</div>
+                <p className='claude-home-aside-note'>
+                  在把站点从模板变成自己的房间。下一篇还没定标题。
+                </p>
               </div>
+              <div className='claude-home-aside-card'>
+                <div className='claude-home-aside-kicker'>PINNED</div>
+                <ul className='claude-home-aside-links'>
+                  {HOME_LINKS.map(link => (
+                    <li key={link.href}>
+                      <SmartLink href={link.href}>{link.label}</SmartLink>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              {pinnedPosts[0] && (
+                <div className='claude-home-aside-card'>
+                  <div className='claude-home-aside-kicker'>LATEST</div>
+                  <SmartLink
+                    href={pinnedPosts[0].href || `/${pinnedPosts[0].slug}`}
+                    className='claude-home-aside-latest'>
+                    {pinnedPosts[0].title || '未命名'}
+                  </SmartLink>
+                </div>
+              )}
               <ul className='claude-year-filter-list'>
                 {years.map(year => {
                   const isActive = year === activeYear
