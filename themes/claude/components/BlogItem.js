@@ -8,67 +8,61 @@ import CONFIG from '../config'
 
 export const BlogItem = props => {
   const { post } = props
-  const { NOTION_CONFIG } = useGlobal()
-  const showPageCover = siteConfig('CLAUDE_POST_COVER_ENABLE', false, CONFIG)
+  const { NOTION_CONFIG, siteInfo } = useGlobal()
+  const showPageCover = siteConfig('CLAUDE_POST_COVER_ENABLE', true, CONFIG)
   const showPreview =
     siteConfig('POST_LIST_PREVIEW', false, NOTION_CONFIG) && post.blockMap
+  const cover = post?.pageCoverThumbnail || siteInfo?.pageCover
+
   return (
-    <div key={post.id} className='claude-article-item'>
-      <div className='flex'>
-        <div className='article-cover h-full'>
-          {showPageCover && (
-            <div className='overflow-hidden mr-3 w-48 h-full rounded-lg'>
-              <SmartLink href={post.href} passHref legacyBehavior>
-                <LazyImage
-                  src={post?.pageCoverThumbnail}
-                  className='w-48 h-full object-cover object-center hover:scale-105 duration-300'
-                />
-              </SmartLink>
+    <article className='claude-post-card'>
+      {showPageCover && cover && (
+        <SmartLink href={post.href} className='claude-post-card-cover'>
+          <LazyImage
+            src={cover}
+            alt={post.title || ''}
+            className='claude-post-card-cover-img'
+          />
+        </SmartLink>
+      )}
+
+      <div className='claude-post-card-body'>
+        {post?.category && (
+          <SmartLink
+            href={`/category/${post.category}`}
+            className='claude-post-card-category'>
+            {post.category}
+          </SmartLink>
+        )}
+
+        <h2 className='claude-post-card-title'>
+          <SmartLink href={post.href}>
+            {siteConfig('POST_TITLE_ICON') && (
+              <NotionIcon icon={post.pageIcon} />
+            )}
+            {post.title}
+          </SmartLink>
+        </h2>
+
+        <div className='claude-post-card-summary'>
+          {!showPreview && post.summary}
+          {showPreview && post?.blockMap && (
+            <div className='line-clamp-2 overflow-hidden'>
+              <NotionPage post={post} />
             </div>
           )}
         </div>
 
-        <article className='article-info flex-1'>
-          <h2 className='mb-1'>
-            <SmartLink
-              href={post.href}
-              className='text-lg font-medium text-[var(--claude-text-primary)] hover:text-[var(--claude-accent)] duration-200 transition-colors'>
-              {siteConfig('POST_TITLE_ICON') && (
-                <NotionIcon icon={post.pageIcon} />
-              )}
-              {post.title}
-            </SmartLink>
-          </h2>
-
-          {/* 文章信息 */}
-          <div className='text-sm text-[var(--claude-text-tertiary)] flex flex-wrap items-center gap-x-3 mb-2'>
-            <span>
-              {post.date?.start_date || post.createdTime}
-            </span>
-            {post?.tags && post?.tags?.length > 0 && (
-              <div className='flex flex-wrap gap-x-2'>
-                {post.tags.map(t => (
-                  <SmartLink
-                    key={t}
-                    href={`/tag/${t}`}
-                    className='hover:text-[var(--claude-accent)] transition-colors duration-200'>
-                    #{t}
-                  </SmartLink>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <div className='text-sm text-[var(--claude-text-secondary)] line-clamp-2 leading-relaxed'>
-            {!showPreview && post.summary}
-            {showPreview && post?.blockMap && (
-              <div className='line-clamp-2 overflow-hidden'>
-                <NotionPage post={post} />
-              </div>
-            )}
-          </div>
-        </article>
+        <div className='claude-post-card-meta'>
+          <span>{post.date?.start_date || post.publishDay || post.createdTime}</span>
+          {post?.tags?.length > 0 &&
+            post.tags.map(t => (
+              <SmartLink key={t} href={`/tag/${t}`} className='claude-post-card-tag'>
+                #{t}
+              </SmartLink>
+            ))}
+        </div>
       </div>
-    </div>
+    </article>
   )
 }

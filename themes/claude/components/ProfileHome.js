@@ -1,11 +1,6 @@
 import SmartLink from '@/components/SmartLink'
-import { useMemo } from 'react'
-
-const HOME_LINKS = [
-  { href: '/archive', label: '归档', icon: 'fas fa-archive' },
-  { href: '/category', label: '分类', icon: 'fas fa-folder' },
-  { href: '/tag', label: '标签', icon: 'fas fa-tag' }
-]
+import { useMemo, useState } from 'react'
+import { BlogItem } from './BlogItem'
 
 const isReadmeLikePage = page => {
   if (!page) return false
@@ -21,48 +16,58 @@ const isPlaceholderErrorPost = post => {
 }
 
 export default function ProfileHome(props) {
-  const { posts = [], latestPosts = [] } = props
+  const { posts = [], latestPosts = [], categoryOptions = [] } = props
+  const [activeCategory, setActiveCategory] = useState('')
 
-  const recentPosts = useMemo(() => {
-    const source = (latestPosts.length ? latestPosts : posts) || []
-    return source
-      .filter(post => post && !isReadmeLikePage(post) && !isPlaceholderErrorPost(post))
-      .slice(0, 6)
+  const allPosts = useMemo(() => {
+    const source = (posts.length ? posts : latestPosts) || []
+    return source.filter(
+      post => post && !isReadmeLikePage(post) && !isPlaceholderErrorPost(post)
+    )
   }, [latestPosts, posts])
 
+  const visiblePosts = useMemo(() => {
+    if (!activeCategory) return allPosts
+    return allPosts.filter(post => post.category === activeCategory)
+  }, [activeCategory, allPosts])
+
   return (
-    <div className='claude-lounge'>
-      <div className='claude-lounge-capsules'>
-        {HOME_LINKS.map(link => (
-          <SmartLink key={link.href} href={link.href} className='claude-lounge-capsule'>
-            <i className={`${link.icon} claude-lounge-capsule-icon`} aria-hidden='true' />
-            <span>{link.label}</span>
-          </SmartLink>
+    <div className='claude-home-feed'>
+      <div className='claude-home-chips' role='tablist' aria-label='文章分类'>
+        <button
+          type='button'
+          role='tab'
+          aria-selected={!activeCategory}
+          className={`claude-home-chip${!activeCategory ? ' is-active' : ''}`}
+          onClick={() => setActiveCategory('')}>
+          全部
+        </button>
+        {categoryOptions.map(category => (
+          <button
+            key={category.name}
+            type='button'
+            role='tab'
+            aria-selected={activeCategory === category.name}
+            className={`claude-home-chip${activeCategory === category.name ? ' is-active' : ''}`}
+            onClick={() => setActiveCategory(category.name)}>
+            {category.name}
+          </button>
         ))}
       </div>
 
-      {recentPosts.length > 0 && (
-        <section className='claude-lounge-recent'>
-          <h2 className='claude-lounge-recent-title'>最近</h2>
-          <div className='claude-lounge-recent-list'>
-            {recentPosts.map(post => (
-              <SmartLink
-                key={post.id || post.slug}
-                href={post.href || `/${post.slug}`}
-                className='claude-lounge-post'>
-                <span className='claude-lounge-post-title'>{post.title || '未命名'}</span>
-                <span className='claude-lounge-post-meta'>
-                  {post.publishDay && <span>{post.publishDay}</span>}
-                  {post.category && <span>{post.category}</span>}
-                </span>
-                {post.summary && (
-                  <span className='claude-lounge-post-summary'>{post.summary}</span>
-                )}
-              </SmartLink>
-            ))}
-          </div>
-        </section>
+      {visiblePosts.length > 0 ? (
+        <div className='claude-home-cards'>
+          {visiblePosts.map(post => (
+            <BlogItem key={post.id || post.slug} post={post} />
+          ))}
+        </div>
+      ) : (
+        <p className='claude-home-empty'>这一类还没有文章。</p>
       )}
+
+      <div className='claude-home-more'>
+        <SmartLink href='/archive'>更多归档</SmartLink>
+      </div>
     </div>
   )
 }

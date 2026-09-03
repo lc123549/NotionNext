@@ -772,130 +772,205 @@ const Style = () => {
       }
 
       /* ========================================
-       * HOME LOUNGE
+       * HOME FEED + POST CARDS
        * ======================================== */
-      .claude-lounge {
+      .claude-home-feed {
         display: flex;
         flex-direction: column;
-        align-items: stretch;
         gap: 1.25rem;
-        padding-top: 1.5rem;
         width: 100%;
-        max-width: 760px;
+        max-width: 860px;
         margin: 0 auto;
+        padding-top: 0.5rem;
       }
-      .claude-lounge-capsules {
+      .claude-home-chips {
         display: flex;
         flex-wrap: wrap;
-        gap: 12px;
+        gap: 10px;
       }
-      .claude-lounge-capsule {
+      .claude-home-chip {
         display: inline-flex;
         align-items: center;
-        gap: 8px;
-        padding: 12px 22px;
+        padding: 8px 16px;
         border-radius: 999px;
         background: #ffffff;
         border: 1px solid #e6ebe7;
-        color: var(--claude-text-primary);
-        text-decoration: none;
-        font-size: 0.95rem;
+        color: var(--claude-text-secondary);
+        font-size: 0.875rem;
         font-weight: 500;
+        line-height: 1.2;
+        cursor: pointer;
         transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
           background-color 0.2s ease,
-          border-color 0.2s ease;
+          border-color 0.2s ease,
+          color 0.2s ease;
       }
-      .claude-lounge-capsule-icon {
-        font-size: 0.85rem;
-        opacity: 0.75;
+      .claude-home-chip:hover,
+      .claude-home-chip.is-active {
+        transform: translateY(-2px);
+        background: #f7faf7;
+        border-color: #c5d4c8;
+        color: var(--claude-text-primary);
       }
-      .claude-lounge-recent {
-        width: 100%;
+      .claude-home-chip.is-active {
+        background: #eef5ef;
       }
-      .claude-lounge-recent-title {
-        margin: 0 0 12px;
-        font-size: 0.8rem;
-        font-weight: 500;
-        letter-spacing: 0.08em;
-        color: var(--claude-text-tertiary);
-      }
-      .claude-lounge-recent-list {
+      .claude-home-cards {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 16px;
       }
-      .claude-lounge-post {
+      .claude-post-card {
         display: flex;
         flex-direction: column;
-        gap: 5px;
-        width: 100%;
-        padding: 16px 22px;
-        border-radius: 18px;
+        overflow: hidden;
         background: #ffffff;
         border: 1px solid #e6ebe7;
-        color: var(--claude-text-primary);
-        text-decoration: none;
+        border-radius: 20px;
         transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
-          background-color 0.2s ease,
-          border-color 0.2s ease;
+          border-color 0.2s ease,
+          background-color 0.2s ease;
       }
-      .claude-lounge-capsule:hover,
-      .claude-lounge-post:hover {
+      .claude-post-card:hover {
         transform: translateY(-4px);
         background: #f7faf7;
         border-color: #d5e0d6;
+      }
+      .claude-post-card-cover {
+        display: block;
+        width: 100%;
+        height: 168px;
+        overflow: hidden;
+        background: #eef2ef;
+        flex-shrink: 0;
+      }
+      .claude-post-card-cover-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        transition: transform 0.45s ease;
+      }
+      .claude-post-card:hover .claude-post-card-cover-img {
+        transform: scale(1.04);
+      }
+      .claude-post-card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 16px 18px 18px;
+        min-width: 0;
+      }
+      .claude-post-card-category {
+        align-self: flex-start;
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: var(--claude-text-tertiary);
+        text-decoration: none;
+      }
+      .claude-post-card-category:hover {
+        color: var(--claude-accent);
+      }
+      .claude-post-card-title {
+        margin: 0;
+        font-size: 1.05rem;
+        font-weight: 650;
+        line-height: 1.45;
+      }
+      .claude-post-card-title a {
         color: var(--claude-text-primary);
-      }
-      .claude-lounge-capsule:hover {
-        transform: translateY(-4px) scale(1.03);
-      }
-      .claude-lounge-post-title {
-        font-size: 1rem;
-        font-weight: 600;
-        line-height: 1.5;
+        text-decoration: none;
         overflow-wrap: anywhere;
       }
-      .claude-lounge-post-meta {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        font-size: 0.75rem;
-        color: var(--claude-text-tertiary);
+      .claude-post-card-title a:hover {
+        color: var(--claude-accent);
       }
-      .claude-lounge-post-summary {
-        font-size: 0.85rem;
-        line-height: 1.6;
+      .claude-post-card-summary {
+        margin: 0;
+        font-size: 0.875rem;
+        line-height: 1.65;
         color: var(--claude-text-secondary);
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
       }
-      @media (max-width: 767px) {
-        .claude-lounge-capsules {
-          display: none;
+      .claude-post-card-meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+        margin-top: 4px;
+        font-size: 0.75rem;
+        color: var(--claude-text-tertiary);
+      }
+      .claude-post-card-tag {
+        color: var(--claude-text-tertiary);
+        text-decoration: none;
+      }
+      .claude-post-card-tag:hover {
+        color: var(--claude-accent);
+      }
+      .claude-home-empty {
+        margin: 0;
+        padding: 28px 8px;
+        text-align: center;
+        color: var(--claude-text-tertiary);
+        font-size: 0.9rem;
+      }
+      .claude-home-more {
+        display: flex;
+        justify-content: flex-end;
+        padding: 4px 2px 12px;
+      }
+      .claude-home-more a {
+        font-size: 0.8125rem;
+        color: var(--claude-text-tertiary);
+        text-decoration: none;
+      }
+      .claude-home-more a:hover {
+        color: var(--claude-accent);
+      }
+      @media (min-width: 768px) {
+        .claude-post-card {
+          flex-direction: row;
+          min-height: 168px;
+        }
+        .claude-post-card-cover {
+          width: 220px;
+          height: auto;
+          min-height: 168px;
         }
       }
-      .dark .claude-lounge-capsule,
-      .dark .claude-lounge-post {
+      .dark .claude-home-chip,
+      .dark .claude-post-card {
         background: rgba(255, 255, 255, 0.04);
         border-color: rgba(255, 255, 255, 0.1);
       }
-      .dark .claude-lounge-capsule:hover,
-      .dark .claude-lounge-post:hover {
+      .dark .claude-home-chip:hover,
+      .dark .claude-home-chip.is-active,
+      .dark .claude-post-card:hover {
         background: rgba(255, 255, 255, 0.08);
+      }
+      .dark .claude-post-card-cover {
+        background: rgba(255, 255, 255, 0.06);
       }
       @media (prefers-reduced-motion: reduce) {
         .claude-nav-link,
         .claude-profile-contact-row,
-        .claude-lounge-capsule,
-        .claude-lounge-post {
+        .claude-home-chip,
+        .claude-post-card,
+        .claude-post-card-cover-img {
           transition: none;
         }
         .claude-nav-link:hover,
         .claude-profile-contact-row:hover,
-        .claude-lounge-capsule:hover,
-        .claude-lounge-post:hover {
+        .claude-home-chip:hover,
+        .claude-home-chip.is-active,
+        .claude-post-card:hover {
+          transform: none;
+        }
+        .claude-post-card:hover .claude-post-card-cover-img {
           transform: none;
         }
       }
@@ -2901,13 +2976,10 @@ const Style = () => {
       /* ========================================
        * ARTICLE LIST ITEMS
        * ======================================== */
-      .claude-article-item {
-        border-bottom: 1px solid var(--claude-border);
-        padding-bottom: 1.25rem;
-        margin-bottom: 1.25rem;
-      }
-      .claude-article-item:last-child {
-        border-bottom: none;
+      #posts-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
       }
 
       /* ========================================

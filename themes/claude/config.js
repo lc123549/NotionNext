@@ -5,7 +5,7 @@ const CONFIG = {
 
   CLAUDE_POST_AD_ENABLE: process.env.NEXT_PUBLIC_CLAUDE_POST_AD_ENABLE || false, // 文章列表是否插入广告
 
-  CLAUDE_POST_COVER_ENABLE: process.env.NEXT_PUBLIC_CLAUDE_POST_COVER_ENABLE || false, // 是否展示博客封面
+  CLAUDE_POST_COVER_ENABLE: process.env.NEXT_PUBLIC_CLAUDE_POST_COVER_ENABLE !== 'false', // 是否展示博客封面，默认开启
 
   CLAUDE_ARTICLE_RECOMMEND_POSTS: process.env.NEXT_PUBLIC_CLAUDE_ARTICLE_RECOMMEND_POSTS || true, // 文章详情底部显示推荐
 
