@@ -1,7 +1,5 @@
 import SmartLink from '@/components/SmartLink'
-import { siteConfig } from '@/lib/config'
 import { useMemo } from 'react'
-import CONFIG from '../config'
 
 const HOME_LINKS = [
   { href: '/archive', label: '归档', icon: 'fas fa-archive' },
@@ -24,8 +22,6 @@ const isPlaceholderErrorPost = post => {
 
 export default function ProfileHome(props) {
   const { posts = [], latestPosts = [] } = props
-  const authorName = siteConfig('AUTHOR') || siteConfig('CLAUDE_BLOG_NAME', '', CONFIG) || 'DMA梦'
-  const bio = siteConfig('BIO') || '把白天没说完的话，写进夜里的梦。'
 
   const recentPosts = useMemo(() => {
     const source = (latestPosts.length ? latestPosts : posts) || []
@@ -36,9 +32,6 @@ export default function ProfileHome(props) {
 
   return (
     <div className='claude-lounge'>
-      <p className='claude-lounge-kicker'>{authorName}</p>
-      <p className='claude-lounge-lead'>{bio}</p>
-
       <div className='claude-lounge-capsules'>
         {HOME_LINKS.map(link => (
           <SmartLink key={link.href} href={link.href} className='claude-lounge-capsule'>
@@ -58,8 +51,12 @@ export default function ProfileHome(props) {
                 href={post.href || `/${post.slug}`}
                 className='claude-lounge-post'>
                 <span className='claude-lounge-post-title'>{post.title || '未命名'}</span>
-                {post.category && (
-                  <span className='claude-lounge-post-meta'>{post.category}</span>
+                <span className='claude-lounge-post-meta'>
+                  {post.publishDay && <span>{post.publishDay}</span>}
+                  {post.category && <span>{post.category}</span>}
+                </span>
+                {post.summary && (
+                  <span className='claude-lounge-post-summary'>{post.summary}</span>
                 )}
               </SmartLink>
             ))}

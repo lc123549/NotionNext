@@ -760,32 +760,19 @@ const Style = () => {
       .claude-lounge {
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
         gap: 1.25rem;
         padding-top: 1.5rem;
-        max-width: 640px;
-      }
-      .claude-lounge-kicker {
-        margin: 0;
-        font-size: 13px;
-        letter-spacing: 0.08em;
-        color: var(--claude-text-tertiary);
-      }
-      .claude-lounge-lead {
-        margin: 0;
-        font-size: 1.35rem;
-        line-height: 1.7;
-        color: var(--claude-text-primary);
-        font-family: var(--claude-heading-font);
+        width: 100%;
+        max-width: 760px;
+        margin: 0 auto;
       }
       .claude-lounge-capsules {
         display: flex;
         flex-wrap: wrap;
         gap: 12px;
-        margin-top: 0.5rem;
       }
-      .claude-lounge-capsule,
-      .claude-lounge-post {
+      .claude-lounge-capsule {
         display: inline-flex;
         align-items: center;
         gap: 8px;
@@ -801,20 +788,12 @@ const Style = () => {
           background-color 0.2s ease,
           border-color 0.2s ease;
       }
-      .claude-lounge-capsule:hover,
-      .claude-lounge-post:hover {
-        transform: translateY(-4px) scale(1.03);
-        background: #f7faf7;
-        border-color: #d5e0d6;
-        color: var(--claude-text-primary);
-      }
       .claude-lounge-capsule-icon {
         font-size: 0.85rem;
         opacity: 0.75;
       }
       .claude-lounge-recent {
         width: 100%;
-        margin-top: 1.25rem;
       }
       .claude-lounge-recent-title {
         margin: 0 0 12px;
@@ -829,20 +808,56 @@ const Style = () => {
         gap: 10px;
       }
       .claude-lounge-post {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
         width: 100%;
-        justify-content: space-between;
+        padding: 16px 22px;
+        border-radius: 18px;
+        background: #ffffff;
+        border: 1px solid #e6ebe7;
+        color: var(--claude-text-primary);
+        text-decoration: none;
+        transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+          background-color 0.2s ease,
+          border-color 0.2s ease;
+      }
+      .claude-lounge-capsule:hover,
+      .claude-lounge-post:hover {
+        transform: translateY(-4px);
+        background: #f7faf7;
+        border-color: #d5e0d6;
+        color: var(--claude-text-primary);
+      }
+      .claude-lounge-capsule:hover {
+        transform: translateY(-4px) scale(1.03);
       }
       .claude-lounge-post-title {
-        min-width: 0;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        font-size: 1rem;
+        font-weight: 600;
+        line-height: 1.5;
+        overflow-wrap: anywhere;
       }
       .claude-lounge-post-meta {
-        flex-shrink: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
         font-size: 0.75rem;
         color: var(--claude-text-tertiary);
-        font-weight: 400;
+      }
+      .claude-lounge-post-summary {
+        font-size: 0.85rem;
+        line-height: 1.6;
+        color: var(--claude-text-secondary);
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      @media (max-width: 767px) {
+        .claude-lounge-capsules {
+          display: none;
+        }
       }
       .dark .claude-lounge-capsule,
       .dark .claude-lounge-post {
