@@ -651,6 +651,9 @@ const Style = () => {
         border: 1px solid #e6ebe7;
         justify-content: flex-start;
       }
+      #nav-menu-mobile .claude-nav-parent-link {
+        padding-left: 1rem;
+      }
       .claude-nav-icon,
       .claude-nav-icon-emoji {
         width: 16px;
@@ -676,42 +679,57 @@ const Style = () => {
         display: flex;
         flex-direction: column;
       }
+      /* 箭头压在胶囊内部，这样带子菜单的一行和普通一行同宽 */
       .claude-nav-parent-row {
-        display: flex;
-        align-items: stretch;
-        gap: 0;
-      }
-      .claude-nav-parent-link {
-        flex: 1 1 auto;
-        min-width: 0;
+        position: relative;
         display: block;
+        transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      .claude-nav-parent-row:hover {
+        transform: translateY(-3px) scale(1.03);
+      }
+      .claude-nav-parent-row:hover .claude-nav-link {
+        background: rgba(255, 255, 255, 0.82);
+      }
+      .dark .claude-sidebar-glass .claude-nav-parent-row:hover .claude-nav-link {
+        background: rgba(255, 255, 255, 0.18);
+      }
+      .claude-nav-parent-row .claude-nav-parent-link {
+        width: 100%;
+        min-width: 0;
+        padding-right: 2.25rem;
+        padding-left: 2.25rem;
         text-decoration: none;
         color: inherit;
       }
+      .claude-nav-parent-row .claude-nav-parent-link:hover {
+        transform: none;
+      }
       .claude-nav-parent-fallback {
-        flex: 1 1 auto;
-        min-width: 0;
         cursor: pointer;
       }
       .claude-nav-submenu-toggle {
-        flex: 0 0 auto;
+        position: absolute;
+        top: 50%;
+        right: 0.5rem;
+        transform: translateY(-50%);
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 2.25rem;
-        min-width: 2.25rem;
+        width: 1.75rem;
+        height: 1.75rem;
         padding: 0;
         margin: 0;
         border: none;
         background: transparent;
-        color: var(--claude-text-tertiary);
+        color: inherit;
+        opacity: 0.7;
         cursor: pointer;
-        border-radius: 6px;
-        transition: color 0.15s ease, background-color 0.15s ease;
+        border-radius: 999px;
+        transition: opacity 0.15s ease;
       }
       .claude-nav-submenu-toggle:hover {
-        color: var(--claude-sidebar-active-text);
-        background-color: var(--claude-sidebar-active-bg);
+        opacity: 1;
       }
       .claude-nav-chevron {
         font-size: 0.75rem;
@@ -723,17 +741,16 @@ const Style = () => {
       .claude-nav-submenu {
         display: flex;
         flex-direction: column;
-        gap: 0.125rem;
-        padding: 0.125rem 0 0.375rem 0;
-        margin-left: 0.625rem;
-        padding-left: 0.625rem;
-        border-left: 1px solid var(--claude-profile-divider-border);
-      }
-      .claude-profile-nav-section .claude-nav-submenu {
-        margin-left: 0.5rem;
+        gap: 8px;
+        padding: 8px 0 0 0;
+        margin: 0;
       }
       .claude-nav-sublink {
-        padding-left: 0.625rem;
+        font-size: 0.8125rem;
+        background: rgba(255, 255, 255, 0.34);
+      }
+      .dark .claude-sidebar-glass .claude-nav-sublink {
+        background: rgba(255, 255, 255, 0.06);
       }
 
       /* Social icons */
