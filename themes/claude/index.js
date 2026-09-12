@@ -14,9 +14,10 @@ import CONFIG from './config'
 import { Style } from './style'
 import Catalog from './components/Catalog'
 import ProfileHome from './components/ProfileHome'
-import HomeIntro, { homeIntroHeadScript } from './components/HomeIntro'
+import HomeIntro, { homeIntroHeadScript, markIntroDone } from './components/HomeIntro'
 import PostHeader from './components/PostHeader'
 import PostTopNav from './components/PostTopNav'
+import PostTocRail from './components/PostTocRail'
 import FloatTocButton from './components/FloatTocButton'
 import StripImageSourceCaption from './components/StripImageSourceCaption'
 
@@ -86,6 +87,12 @@ const LayoutBase = props => {
   const tocEnable = siteConfig('CLAUDE_TOC_ENABLE', true, CONFIG)
   const isHomePage = router?.pathname === '/'
   const isPostPage = Boolean(props.post)
+
+  useEffect(() => {
+    if (!isHomePage) {
+      markIntroDone()
+    }
+  }, [isHomePage])
 
   useEffect(() => {
     const shouldBlockImageAction = target => {
@@ -158,14 +165,9 @@ const LayoutBase = props => {
             isDarkMode={isDarkMode}
           />
           <main className='w-full max-w-[86rem] mx-auto relative z-10 md:px-5 flex-grow pb-16'>
-            <div className='w-full mx-auto xl:flex xl:items-start xl:gap-4'>
-              {tocEnable && hasToc && (
-                <aside className='hidden xl:block w-72 shrink-0'>
-                  <div className='claude-toc-card sticky top-20'>
-                    <Catalog post={props.post} scrollMode='window' />
-                  </div>
-                </aside>
-              )}
+            <div className='w-full mx-auto xl:flex xl:justify-center relative z-10'>
+              {tocEnable && hasToc && <PostTocRail post={props.post} />}
+              <div className='xl:px-2'></div>
               <div className='flex-1 min-w-0 px-5 xl:px-0'>
                 {onLoading ? loadingNode : children}
               </div>

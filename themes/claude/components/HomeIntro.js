@@ -3,14 +3,15 @@ import Head from 'next/head'
 import { useEffect, useRef, useState } from 'react'
 import CONFIG from '../config'
 
-const STORAGE_KEY = 'claude-home-intro-v3'
+export const HOME_INTRO_STORAGE_KEY = 'claude-home-intro-v3'
+const STORAGE_KEY = HOME_INTRO_STORAGE_KEY
 const INTRO_SCRIPT = `try{var q=new URLSearchParams(location.search).get('intro');if(q==='1'){}else if(q==='0'||sessionStorage.getItem('${STORAGE_KEY}')||matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.dataset.claudeIntro='done'}}catch(e){}`
 
 export const homeIntroHeadScript = {
   __html: INTRO_SCRIPT
 }
 
-const markIntroDone = () => {
+export const markIntroDone = () => {
   try {
     const forced = new URLSearchParams(window.location.search).get('intro') === '1'
     if (!forced) sessionStorage.setItem(STORAGE_KEY, '1')

@@ -1,4 +1,5 @@
-import { cleanCache } from '@/lib/cache/local_file_cache'
+import { cleanCache as cleanFileCache } from '@/lib/cache/local_file_cache'
+import { cleanCache as cleanMemoryCache } from '@/lib/cache/memory_cache'
 
 /**
  * 清理缓存
@@ -16,7 +17,8 @@ export default function handler(req, res) {
   }
 
   try {
-    cleanCache()
+    cleanFileCache()
+    cleanMemoryCache()
     res.status(200).json({ status: 'success', message: 'Clean cache successful!' })
   } catch (error) {
     console.error('Cache clean error:', error)

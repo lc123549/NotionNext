@@ -1,6 +1,5 @@
 import { HashTag } from '@/components/HeroIcons'
 import LazyImage from '@/components/LazyImage'
-import NotionIcon from '@/components/NotionIcon'
 import WordCount from '@/components/WordCount'
 import { siteConfig } from '@/lib/config'
 import { formatDateFmt } from '@/lib/utils/formatDate'
@@ -81,7 +80,6 @@ export default function PostHeader({ post, siteInfo, isDarkMode }) {
           </div>
 
           <div className='max-w-5xl font-bold text-3xl lg:text-5xl md:leading-snug flex justify-center md:justify-start text-white'>
-            {siteConfig('POST_TITLE_ICON') && <NotionIcon icon={post.pageIcon} />}
             {post.title}
           </div>
 
@@ -90,16 +88,13 @@ export default function PostHeader({ post, siteInfo, isDarkMode }) {
               <div className='mr-2'>
                 <WordCount wordCount={post.wordCount} readTime={post.readTime} />
               </div>
-              {post?.type !== 'Page' && (
+              {post?.type !== 'Page' && post?.publishDay && (
                 <SmartLink
                   href={`/archive#${formatDateFmt(post?.publishDate, 'yyyy-MM')}`}
                   className='pl-1 mr-2 cursor-pointer hover:underline'>
-                  <i className='fa-regular fa-calendar' /> {post?.publishDay}
+                  <i className='fa-regular fa-calendar' /> {post.publishDay}
                 </SmartLink>
               )}
-              <div className='pl-1 mr-2'>
-                <i className='fa-regular fa-calendar-check' /> {post.lastEditedDay}
-              </div>
             </div>
 
             {ANALYTICS_BUSUANZI_ENABLE && (

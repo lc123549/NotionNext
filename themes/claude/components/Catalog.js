@@ -163,15 +163,16 @@ const Catalog = ({ post, scrollMode = 'container' }) => {
       if (currentSectionId !== activeSectionRef.current) {
         setActiveSection(currentSectionId)
 
-        // 滚动目录使当前项可见
-        const index = filteredToc.findIndex(
-          obj => uuidToId(obj.id) === currentSectionId
-        )
-        if (index !== -1 && tRef?.current) {
-          const itemHeight = 28
-          const containerHeight = tRef.current.clientHeight
-          const scrollTop = Math.max(0, itemHeight * index - containerHeight / 2 + itemHeight / 2)
-          tRef.current.scrollTo({ top: scrollTop, behavior: scrollBehavior })
+        if (!useWindowScroll && tRef?.current) {
+          const index = filteredToc.findIndex(
+            obj => uuidToId(obj.id) === currentSectionId
+          )
+          if (index !== -1) {
+            const itemHeight = 28
+            const containerHeight = tRef.current.clientHeight
+            const scrollTop = Math.max(0, itemHeight * index - containerHeight / 2 + itemHeight / 2)
+            tRef.current.scrollTo({ top: scrollTop, behavior: scrollBehavior })
+          }
         }
       }
     }, throttleMs)
@@ -210,7 +211,7 @@ const Catalog = ({ post, scrollMode = 'container' }) => {
       <div
         className='catalog-title cursor-pointer select-none'
         onClick={handleTitleClick}>
-        <i className='mr-2 fas fa-list-ul text-xs' />
+        <i className='mr-2 fas fa-stream text-xs' />
         {locale.COMMON.TABLE_OF_CONTENTS}
       </div>
 

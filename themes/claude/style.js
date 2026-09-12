@@ -306,6 +306,9 @@ const Style = () => {
       /* ========================================
        * THEME CONTAINER — no transition to prevent reflow
        * ======================================== */
+      html:has(#theme-claude.claude-page-post) {
+        overflow-x: clip;
+      }
       #theme-claude {
         background-color: var(--claude-bg);
         color: var(--claude-text-primary);
@@ -3399,14 +3402,37 @@ const Style = () => {
       #theme-claude.claude-page-post h5,
       #theme-claude.claude-page-post h6,
       #theme-claude.claude-page-post .catalog-wrapper,
-      #theme-claude.claude-page-post .catalog-title,
-      #theme-claude.claude-page-post .toc-item {
-        font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', 'Segoe UI', sans-serif !important;
+      #theme-claude.claude-page-post .claude-toc-card .catalog-wrapper,
+      #theme-claude.claude-page-post .claude-toc-card .catalog-title,
+      #theme-claude.claude-page-post .claude-toc-card .toc-item {
+        font-family: 'LXGW WenKai', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif !important;
       }
-      #theme-claude.claude-page-post .catalog-title,
-      #theme-claude.claude-page-post .toc-item {
-        font-weight: 400;
-        letter-spacing: 0;
+      #theme-claude.claude-page-post .claude-toc-card .catalog-title {
+        font-size: 0.9375rem !important;
+        font-weight: 400 !important;
+        color: #111 !important;
+        margin-bottom: 0.5rem;
+      }
+      #theme-claude.claude-page-post .claude-toc-card .toc-item {
+        font-size: 0.875rem !important;
+        font-weight: 400 !important;
+        line-height: 1.7 !important;
+        color: #6b7280 !important;
+      }
+      #theme-claude.claude-page-post .claude-toc-card .toc-item.toc-inactive {
+        color: #9ca3af !important;
+        font-weight: 400 !important;
+      }
+      #theme-claude.claude-page-post .claude-toc-card .toc-item.toc-highlighted {
+        color: #4b5563 !important;
+        font-weight: 400 !important;
+      }
+      #theme-claude.claude-page-post .claude-toc-card .toc-item.toc-active {
+        color: #4f46e5 !important;
+        font-weight: 700 !important;
+      }
+      .dark #theme-claude.claude-page-post .claude-toc-card .toc-item.toc-active {
+        color: #facc15 !important;
       }
       #theme-claude.claude-page-post #post-bg .coverdiv {
         position: relative;
@@ -3439,9 +3465,17 @@ const Style = () => {
         display: flex;
         flex-direction: column;
       }
+      #theme-claude.claude-page-post .claude-toc-card {
+        overflow: visible;
+        max-height: calc(100vh - 6rem);
+      }
       #theme-claude.claude-page-post .claude-toc-card .catalog-wrapper {
         height: auto;
-        max-height: calc(100vh - 8rem);
+        max-height: calc(100vh - 6rem);
+      }
+      #theme-claude.claude-page-post .claude-toc-card .catalog-list {
+        overflow-y: auto;
+        max-height: calc(100vh - 9rem);
       }
       #theme-claude.claude-page-post .claude-toc-card .catalog-title {
         color: #111827 !important;

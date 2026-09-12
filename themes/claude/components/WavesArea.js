@@ -1,11 +1,81 @@
 import { useGlobal } from '@/lib/global'
+import { useRouter } from 'next/router'
+
+const VARIANTS = ['dunes', 'scoop', 'fade', 'silk']
 
 /**
- * 文章头图底部的动态波浪，对齐 heo / LZJ 顶栏。
+ * 头图底边过渡。默认 dunes（旧蓝浪）；?edge=scoop|fade|silk 可预览替代。
  */
-export default function WavesArea() {
+export default function WavesArea({ variant }) {
   const { isDarkMode } = useGlobal()
+  const router = useRouter()
   const color = isDarkMode ? '#18171d' : '#f7f9fe'
+  const queryEdge = typeof router.query.edge === 'string' ? router.query.edge : ''
+  const edge = VARIANTS.includes(variant)
+    ? variant
+    : VARIANTS.includes(queryEdge)
+      ? queryEdge
+      : 'dunes'
+
+  if (edge === 'scoop') {
+    return (
+      <section className='w-full absolute left-0 bottom-0 z-10 pointer-events-none h-20 overflow-hidden'>
+        <svg
+          className='w-full h-full'
+          viewBox='0 0 1440 80'
+          preserveAspectRatio='none'
+          xmlns='http://www.w3.org/2000/svg'>
+          <path fill={color} d='M0,48 C240,88 480,8 720,40 C960,72 1200,16 1440,48 L1440,80 L0,80 Z' />
+        </svg>
+      </section>
+    )
+  }
+
+  if (edge === 'fade') {
+    return (
+      <section
+        className='w-full absolute left-0 bottom-0 z-10 pointer-events-none h-28'
+        style={{
+          background: `linear-gradient(to bottom, rgba(0,0,0,0) 0%, ${color} 92%)`
+        }}
+      />
+    )
+  }
+
+  if (edge === 'silk') {
+    return (
+      <section className='claude-hero-silk w-full absolute left-0 bottom-0 z-10 pointer-events-none h-[72px] overflow-hidden'>
+        <svg
+          className='w-[200%] h-full claude-hero-silk-svg'
+          viewBox='0 0 1440 72'
+          preserveAspectRatio='none'
+          xmlns='http://www.w3.org/2000/svg'>
+          <path
+            fill={color}
+            d='M0,40 C180,62 320,18 480,36 C640,54 800,14 960,38 C1120,62 1280,22 1440,40 L1440,72 L0,72 Z'
+          />
+        </svg>
+        <style jsx>{`
+          .claude-hero-silk-svg {
+            animation: claude-silk-shift 18s ease-in-out infinite alternate;
+          }
+          @keyframes claude-silk-shift {
+            from {
+              transform: translateX(0);
+            }
+            to {
+              transform: translateX(-50%);
+            }
+          }
+          @media (prefers-reduced-motion: reduce) {
+            .claude-hero-silk-svg {
+              animation: none;
+            }
+          }
+        `}</style>
+      </section>
+    )
+  }
 
   return (
     <section className='main-hero-waves-area waves-area w-full absolute left-0 z-10 bottom-0'>

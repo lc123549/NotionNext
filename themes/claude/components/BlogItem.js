@@ -1,5 +1,4 @@
 import LazyImage from '@/components/LazyImage'
-import NotionIcon from '@/components/NotionIcon'
 import NotionPage from '@/components/NotionPage'
 import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
@@ -30,12 +29,7 @@ export const BlogItem = props => {
 
       <div className='claude-post-card-body'>
         <h2 className='claude-post-card-title'>
-          <SmartLink href={post.href}>
-            {siteConfig('POST_TITLE_ICON') && (
-              <NotionIcon icon={post.pageIcon} />
-            )}
-            {post.title}
-          </SmartLink>
+          <SmartLink href={post.href}>{post.title}</SmartLink>
         </h2>
 
         <div className='claude-post-card-summary'>
