@@ -3,6 +3,9 @@ import { useEffect, useState } from 'react'
 
 const getScrollRoot = () => {
   if (typeof document === 'undefined') return null
+  if (document.getElementById('theme-claude')?.classList.contains('claude-page-post')) {
+    return document.scrollingElement
+  }
   return document.getElementById('container-inner') || document.scrollingElement
 }
 

@@ -15,6 +15,10 @@ import { Style } from './style'
 import Catalog from './components/Catalog'
 import ProfileHome from './components/ProfileHome'
 import HomeIntro, { homeIntroHeadScript } from './components/HomeIntro'
+import PostHeader from './components/PostHeader'
+import PostTopNav from './components/PostTopNav'
+import FloatTocButton from './components/FloatTocButton'
+import StripImageSourceCaption from './components/StripImageSourceCaption'
 
 const AlgoliaSearchModal = dynamic(
   () => import('@/components/AlgoliaSearchModal'),
@@ -27,9 +31,6 @@ const BlogArchiveItem = dynamic(() => import('./components/BlogArchiveItem'), {
   ssr: false
 })
 const ArticleLock = dynamic(() => import('./components/ArticleLock'), {
-  ssr: false
-})
-const ArticleInfo = dynamic(() => import('./components/ArticleInfo'), {
   ssr: false
 })
 const Comment = dynamic(() => import('@/components/Comment'), { ssr: false })
@@ -78,12 +79,13 @@ const SidebarContent = memo(function SidebarContent(props) {
  */
 const LayoutBase = props => {
   const { children } = props
-  const { onLoading } = useGlobal()
+  const { onLoading, isDarkMode } = useGlobal()
   const router = useRouter()
   const searchModal = useRef(null)
   const hasToc = props.post?.toc && props.post.toc.length > 0
   const tocEnable = siteConfig('CLAUDE_TOC_ENABLE', true, CONFIG)
   const isHomePage = router?.pathname === '/'
+  const isPostPage = Boolean(props.post)
 
   useEffect(() => {
     const shouldBlockImageAction = target => {
@@ -111,6 +113,21 @@ const LayoutBase = props => {
     }
   }, [])
 
+  const openSearch = () => {
+    if (searchModal.current?.openSearch) {
+      searchModal.current.openSearch()
+      return
+    }
+    router.push('/search')
+  }
+
+  const loadingNode = (
+    <div className='flex items-center justify-center min-h-[500px] w-full' role='status' aria-live='polite'>
+      <div className='claude-loading-spinner' aria-hidden='true' />
+      <span className='sr-only'>正在加载</span>
+    </div>
+  )
+
   return (
     <ThemeGlobalSimple.Provider value={{ searchModal }}>
       {isHomePage && (
@@ -118,6 +135,53 @@ const LayoutBase = props => {
           <script dangerouslySetInnerHTML={homeIntroHeadScript} />
         </Head>
       )}
+      {isPostPage ? (
+        <div
+          id='theme-claude'
+          className={`${siteConfig('FONT_STYLE')} claude-page-post min-h-screen flex flex-col`}>
+          <Head>
+            <link rel='preconnect' href='https://cdn.jsdelivr.net' />
+            <link
+              href='https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css'
+              rel='stylesheet'
+            />
+          </Head>
+          <Style />
+          <PostTopNav
+            customNav={props.customNav}
+            customMenu={props.customMenu}
+            onSearch={openSearch}
+          />
+          <PostHeader
+            post={props.post}
+            siteInfo={props.siteInfo}
+            isDarkMode={isDarkMode}
+          />
+          <main className='w-full max-w-[86rem] mx-auto relative z-10 md:px-5 flex-grow pb-16'>
+            <div className='w-full mx-auto xl:flex xl:items-start xl:gap-4'>
+              {tocEnable && hasToc && (
+                <aside className='hidden xl:block w-72 shrink-0'>
+                  <div className='claude-toc-card sticky top-20'>
+                    <Catalog post={props.post} scrollMode='window' />
+                  </div>
+                </aside>
+              )}
+              <div className='flex-1 min-w-0 px-5 xl:px-0'>
+                {onLoading ? loadingNode : children}
+              </div>
+            </div>
+          </main>
+          <footer className='claude-post-footer'>
+            {siteConfig('CLAUDE_FOOTER_COPYRIGHT', '', CONFIG) ||
+              `© ${siteConfig('SINCE')} ${siteConfig('AUTHOR')}`}
+          </footer>
+          <div className='fixed right-4 bottom-4 z-20'>
+            <JumpToTopButton />
+          </div>
+          <FloatTocButton post={props.post} lock={props.lock} />
+          <AlgoliaSearchModal cRef={searchModal} {...props} />
+        </div>
+      ) : (
       <div
         id='theme-claude'
         className={`${siteConfig('FONT_STYLE')} ${isHomePage ? 'claude-page-home' : 'claude-page-subpage'} h-screen flex flex-col overflow-hidden`}>
@@ -182,6 +246,7 @@ const LayoutBase = props => {
 
         <AlgoliaSearchModal cRef={searchModal} {...props} />
       </div>
+      )}
     </ThemeGlobalSimple.Provider>
   )
 }
@@ -271,32 +336,31 @@ const LayoutSlug = props => {
 
   return (
     <>
-      {lock && <ArticleLock validPassword={validPassword} />}
+      <div className='claude-article-card'>
+        {lock && <ArticleLock validPassword={validPassword} />}
 
-      {!lock && post && (
-        <div className='w-full'>
-          {/* 文章信息 */}
-          <ArticleInfo post={post} />
+        {!lock && post && (
+          <div className='w-full px-5 py-6 md:px-8'>
+            <WWAds orientation='horizontal' className='w-full' />
 
-          <WWAds orientation='horizontal' className='w-full' />
+            <div id='article-wrapper'>
+              <NotionPage post={post} />
+              <StripImageSourceCaption />
+            </div>
 
-          <div id='article-wrapper'>
-            {!lock && <NotionPage post={post} />}
+            <AdSlot type={'in-article'} />
+
+            {post?.type === 'Post' && (
+              <>
+                <ArticleAround prev={prev} next={next} />
+                <RecommendPosts recommendPosts={recommendPosts} />
+              </>
+            )}
+
+            <Comment frontMatter={post} />
           </div>
-
-          <AdSlot type={'in-article'} />
-
-          {post?.type === 'Post' && (
-            <>
-              <ArticleAround prev={prev} next={next} />
-              <RecommendPosts recommendPosts={recommendPosts} />
-            </>
-          )}
-
-          {/* 评论区 */}
-          <Comment frontMatter={post} />
-        </div>
-      )}
+        )}
+      </div>
     </>
   )
 }

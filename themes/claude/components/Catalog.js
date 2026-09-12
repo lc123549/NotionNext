@@ -15,7 +15,7 @@ import CONFIG from '../config'
  * 4. 点击 "On this page" 标题回到页面顶部
  * 5. 高亮颜色：浅色模式 = 加粗黑色，深色模式 = 陶土色 (terracotta)
  */
-const Catalog = ({ post }) => {
+const Catalog = ({ post, scrollMode = 'container' }) => {
   const { locale } = useGlobal()
   const tRef = useRef(null)
   const clickLockRef = useRef(false)
@@ -122,6 +122,8 @@ const Catalog = ({ post }) => {
     return false
   }, [showLevel3, tocHierarchy, activeL2Id])
 
+  const useWindowScroll = scrollMode === 'window'
+
   // 监听滚动事件
   useEffect(() => {
     if (!post || !filteredToc || filteredToc.length < 1) return
@@ -134,9 +136,9 @@ const Catalog = ({ post }) => {
       const sections = document.getElementsByClassName('notion-h')
       if (!sections || sections.length === 0) return
 
-      const container = document.querySelector('#container-inner')
-      if (!container) return
-      const containerTop = container.getBoundingClientRect().top
+      const container = useWindowScroll ? null : document.querySelector('#container-inner')
+      if (!useWindowScroll && !container) return
+      const containerTop = useWindowScroll ? 88 : container.getBoundingClientRect().top
 
       let currentSectionId = null
 
@@ -174,7 +176,7 @@ const Catalog = ({ post }) => {
       }
     }, throttleMs)
 
-    const content = document.querySelector('#container-inner')
+    const content = useWindowScroll ? window : document.querySelector('#container-inner')
     if (!content) return
 
     content.addEventListener('scroll', actionSectionScrollSpy, { passive: true })
@@ -184,10 +186,14 @@ const Catalog = ({ post }) => {
       content?.removeEventListener('scroll', actionSectionScrollSpy)
       actionSectionScrollSpy.cancel?.()
     }
-  }, [post, filteredToc, tocHierarchy, scrollBehavior])
+  }, [post, filteredToc, tocHierarchy, scrollBehavior, useWindowScroll])
 
   // 点击 "On this page" 标题回到顶部
   const handleTitleClick = () => {
+    if (useWindowScroll) {
+      window.scrollTo({ top: 0, behavior: scrollBehavior })
+      return
+    }
     const container = document.querySelector('#container-inner')
     if (container) {
       container.scrollTo({ top: 0, behavior: scrollBehavior })
@@ -236,12 +242,18 @@ const Catalog = ({ post }) => {
 
                   const target = document.querySelector(`[data-id="${id}"]`)
                   if (target) {
-                    const container = document.querySelector('#container-inner')
-                    if (container) {
-                      const targetRect = target.getBoundingClientRect()
-                      const containerRect = container.getBoundingClientRect()
-                      const scrollOffset = container.scrollTop + targetRect.top - containerRect.top - 20
-                      container.scrollTo({ top: scrollOffset, behavior: scrollBehavior })
+                    if (useWindowScroll) {
+                      const top =
+                        target.getBoundingClientRect().top + window.scrollY - 88
+                      window.scrollTo({ top, behavior: scrollBehavior })
+                    } else {
+                      const container = document.querySelector('#container-inner')
+                      if (container) {
+                        const targetRect = target.getBoundingClientRect()
+                        const containerRect = container.getBoundingClientRect()
+                        const scrollOffset = container.scrollTop + targetRect.top - containerRect.top - 20
+                        container.scrollTo({ top: scrollOffset, behavior: scrollBehavior })
+                      }
                     }
                   }
 

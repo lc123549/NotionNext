@@ -3294,6 +3294,283 @@ const Style = () => {
         }
       }
 
+      /* ========================================
+       * ARTICLE PAGE — heo / LZJ style
+       * ======================================== */
+      html:has(#theme-claude.claude-page-post),
+      html:has(#theme-claude.claude-page-post) body {
+        height: auto;
+        overflow: auto;
+        background-color: #f7f9fe;
+      }
+      html.dark:has(#theme-claude.claude-page-post),
+      html[data-theme='dark']:has(#theme-claude.claude-page-post),
+      html.dark:has(#theme-claude.claude-page-post) body,
+      html[data-theme='dark']:has(#theme-claude.claude-page-post) body {
+        background-color: #18171d;
+      }
+      #theme-claude.claude-page-post {
+        background-color: #f7f9fe !important;
+        color: #111;
+        font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', 'Segoe UI', sans-serif;
+        font-weight: 400;
+      }
+      .dark #theme-claude.claude-page-post,
+      html[data-theme='dark'] #theme-claude.claude-page-post {
+        background-color: #18171d !important;
+        color: #e5e7eb;
+      }
+      #theme-claude.claude-page-post .claude-article-card,
+      #theme-claude.claude-page-post .claude-article-card .notion,
+      #theme-claude.claude-page-post .claude-article-card .notion-text,
+      #theme-claude.claude-page-post .claude-article-card .notion-list,
+      #theme-claude.claude-page-post .claude-article-card .notion-to-do,
+      #theme-claude.claude-page-post .claude-article-card .notion-quote,
+      #theme-claude.claude-page-post .claude-article-card .notion-callout,
+      #theme-claude.claude-page-post .claude-article-card .notion-callout-text,
+      #theme-claude.claude-page-post .claude-article-card .notion-simple-table,
+      #theme-claude.claude-page-post .claude-article-card .notion-asset-caption,
+      #theme-claude.claude-page-post .claude-article-card .notion-h,
+      #theme-claude.claude-page-post .claude-article-card .notion-h1,
+      #theme-claude.claude-page-post .claude-article-card .notion-h2,
+      #theme-claude.claude-page-post .claude-article-card .notion-h3,
+      #theme-claude.claude-page-post .claude-article-card .notion-h4,
+      #theme-claude.claude-page-post .claude-article-card b,
+      #theme-claude.claude-page-post .claude-article-card strong {
+        font-family: 'LXGW WenKai', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Serif SC', serif !important;
+      }
+      #theme-claude.claude-page-post .claude-article-card .notion-text,
+      #theme-claude.claude-page-post .claude-article-card .notion-list,
+      #theme-claude.claude-page-post .claude-article-card .notion-to-do,
+      #theme-claude.claude-page-post .claude-article-card .notion-quote,
+      #theme-claude.claude-page-post .claude-article-card .notion-callout-text,
+      #theme-claude.claude-page-post .claude-article-card .notion-simple-table td {
+        font-size: 16px !important;
+        font-weight: 400 !important;
+        line-height: 2 !important;
+        color: #111 !important;
+        letter-spacing: 0.02em;
+      }
+      #theme-claude.claude-page-post .claude-article-card .notion-h,
+      #theme-claude.claude-page-post .claude-article-card .notion-h1,
+      #theme-claude.claude-page-post .claude-article-card .notion-h2,
+      #theme-claude.claude-page-post .claude-article-card .notion-h3,
+      #theme-claude.claude-page-post .claude-article-card .notion-h4 {
+        font-weight: 700 !important;
+        color: #111 !important;
+        letter-spacing: 0.04em;
+        line-height: 1.35 !important;
+      }
+      #theme-claude.claude-page-post .claude-article-card .notion-h2 {
+        font-size: 1.4rem !important;
+        margin-top: 1.55em !important;
+        margin-bottom: 0.45em !important;
+      }
+      #theme-claude.claude-page-post .claude-article-card .notion-h3 {
+        font-size: 1.2rem !important;
+        margin-top: 1.35em !important;
+      }
+      #theme-claude.claude-page-post .claude-article-card b,
+      #theme-claude.claude-page-post .claude-article-card strong {
+        font-weight: 700 !important;
+        color: #111 !important;
+      }
+      #theme-claude.claude-page-post .claude-article-card .notion-code,
+      #theme-claude.claude-page-post .claude-article-card code,
+      #theme-claude.claude-page-post .claude-article-card pre {
+        font-family: var(--claude-mono-font) !important;
+        letter-spacing: 0 !important;
+      }
+      .dark #theme-claude.claude-page-post .claude-article-card .notion-text,
+      .dark #theme-claude.claude-page-post .claude-article-card .notion-list,
+      .dark #theme-claude.claude-page-post .claude-article-card .notion-h,
+      .dark #theme-claude.claude-page-post .claude-article-card .notion-h2,
+      .dark #theme-claude.claude-page-post .claude-article-card .notion-h3,
+      .dark #theme-claude.claude-page-post .claude-article-card b,
+      .dark #theme-claude.claude-page-post .claude-article-card strong,
+      html[data-theme='dark'] #theme-claude.claude-page-post .claude-article-card .notion-text,
+      html[data-theme='dark'] #theme-claude.claude-page-post .claude-article-card .notion-h2 {
+        color: #f4f4f5 !important;
+      }
+      #theme-claude.claude-page-post h1,
+      #theme-claude.claude-page-post h2,
+      #theme-claude.claude-page-post h3,
+      #theme-claude.claude-page-post h4,
+      #theme-claude.claude-page-post h5,
+      #theme-claude.claude-page-post h6,
+      #theme-claude.claude-page-post .catalog-wrapper,
+      #theme-claude.claude-page-post .catalog-title,
+      #theme-claude.claude-page-post .toc-item {
+        font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', 'Segoe UI', sans-serif !important;
+      }
+      #theme-claude.claude-page-post .catalog-title,
+      #theme-claude.claude-page-post .toc-item {
+        font-weight: 400;
+        letter-spacing: 0;
+      }
+      #theme-claude.claude-page-post #post-bg .coverdiv {
+        position: relative;
+      }
+      #theme-claude.claude-page-post #post-top-nav:not(.bg-white) .claude-theme-toggle {
+        color: #fff;
+      }
+      #theme-claude.claude-page-post #post-top-nav:not(.bg-white) .claude-theme-toggle:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.15);
+      }
+      .claude-article-card,
+      .claude-toc-card {
+        background: #fff;
+        border: 1px solid #4f46e5;
+        border-radius: 1rem;
+        box-shadow: 0 1px 2px rgba(79, 70, 229, 0.06);
+      }
+      .dark .claude-article-card,
+      .dark .claude-toc-card,
+      html[data-theme='dark'] .claude-article-card,
+      html[data-theme='dark'] .claude-toc-card {
+        background: #18171d;
+        border-color: #ca8a04;
+      }
+      .claude-toc-card {
+        padding: 1.25rem 1rem 1rem;
+        max-height: calc(100vh - 6rem);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+      #theme-claude.claude-page-post .claude-toc-card .catalog-wrapper {
+        height: auto;
+        max-height: calc(100vh - 8rem);
+      }
+      #theme-claude.claude-page-post .claude-toc-card .catalog-title {
+        color: #111827 !important;
+      }
+      .dark #theme-claude.claude-page-post .claude-toc-card .catalog-title,
+      html[data-theme='dark'] #theme-claude.claude-page-post .claude-toc-card .catalog-title {
+        color: #f3f4f6 !important;
+      }
+      .claude-post-footer {
+        text-align: center;
+        font-size: 0.8125rem;
+        color: #9ca3af;
+        padding: 1.5rem 1rem 2.5rem;
+      }
+      #theme-claude.claude-page-post #article-wrapper .notion-asset-wrapper {
+        min-width: 0 !important;
+        margin-top: 1rem !important;
+        margin-bottom: 1.25rem !important;
+      }
+      #theme-claude.claude-page-post #article-wrapper .notion-asset-wrapper-image {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100% !important;
+        max-width: min(100%, 36rem);
+        margin-left: auto;
+        margin-right: auto;
+      }
+      #theme-claude.claude-page-post #article-wrapper .notion-asset-wrapper-image > div,
+      #theme-claude.claude-page-post #article-wrapper .notion-asset-wrapper-image .lazy-image-wrapper {
+        position: relative !important;
+        width: auto !important;
+        max-width: 100% !important;
+        height: auto !important;
+        padding: 0 !important;
+        padding-bottom: 0 !important;
+        overflow: visible !important;
+      }
+      #theme-claude.claude-page-post #article-wrapper .notion-asset-wrapper-image img,
+      #theme-claude.claude-page-post #article-wrapper .notion-asset-wrapper-image .lazy-image-real,
+      #theme-claude.claude-page-post #article-wrapper .notion-asset-wrapper-image .lazy-image-preview {
+        position: static !important;
+        inset: auto !important;
+        width: auto !important;
+        height: auto !important;
+        min-width: 0 !important;
+        min-height: 0 !important;
+        max-width: 100% !important;
+        max-height: 22rem !important;
+        object-fit: contain !important;
+        transform: none !important;
+        filter: none !important;
+      }
+      #theme-claude.claude-page-post #article-wrapper .notion-asset-wrapper-image img {
+        border-radius: 0.5rem;
+      }
+      #theme-claude.claude-page-post #article-wrapper .notion-asset-caption,
+      #theme-claude.claude-page-post #article-wrapper figcaption {
+        display: block !important;
+        max-width: min(100%, 36rem);
+        margin: 0.5rem auto 0;
+        padding: 0 0.25rem;
+        font-size: 0.8125rem;
+        line-height: 1.6;
+        color: #6b7280;
+        text-align: center;
+        white-space: normal;
+      }
+      #theme-claude.claude-page-post #article-wrapper .notion-list,
+      #theme-claude.claude-page-post #article-wrapper .notion-to-do {
+        margin-bottom: 0.35rem !important;
+      }
+      #theme-claude.claude-page-post .notion-simple-table-wrapper {
+        margin: 1.25rem 0 1.5rem;
+        overflow-x: auto;
+        border-radius: 0.75rem;
+        border: 1px solid #c7d2fe;
+        background: #eef2ff;
+      }
+      #theme-claude.claude-page-post .notion-simple-table {
+        background: #eef2ff !important;
+      }
+      #theme-claude.claude-page-post .notion-simple-table td {
+        color: #111827 !important;
+        border-bottom: 1px solid #c7d2fe !important;
+      }
+      #theme-claude.claude-page-post .notion-simple-table tr:first-child td {
+        background: #4f46e5 !important;
+        color: #fff !important;
+        font-weight: 600 !important;
+        font-size: 0.8125rem !important;
+      }
+      #theme-claude.claude-page-post .notion-simple-table tr:not(:first-child):nth-child(odd) td {
+        background: #fff !important;
+      }
+      #theme-claude.claude-page-post .notion-simple-table tr:not(:first-child):nth-child(even) td {
+        background: #e0e7ff !important;
+      }
+      #theme-claude.claude-page-post .notion-simple-table tr:last-child td {
+        border-bottom: none !important;
+      }
+      .dark #theme-claude.claude-page-post .notion-simple-table-wrapper,
+      html[data-theme='dark'] #theme-claude.claude-page-post .notion-simple-table-wrapper {
+        border-color: #3f3f46;
+        background: #27272a;
+      }
+      .dark #theme-claude.claude-page-post .notion-simple-table,
+      html[data-theme='dark'] #theme-claude.claude-page-post .notion-simple-table {
+        background: #27272a !important;
+      }
+      .dark #theme-claude.claude-page-post .notion-simple-table td,
+      html[data-theme='dark'] #theme-claude.claude-page-post .notion-simple-table td {
+        color: #f4f4f5 !important;
+        border-bottom-color: #3f3f46 !important;
+      }
+      .dark #theme-claude.claude-page-post .notion-simple-table tr:first-child td,
+      html[data-theme='dark'] #theme-claude.claude-page-post .notion-simple-table tr:first-child td {
+        background: #ca8a04 !important;
+        color: #18181b !important;
+      }
+      .dark #theme-claude.claude-page-post .notion-simple-table tr:not(:first-child):nth-child(odd) td,
+      html[data-theme='dark'] #theme-claude.claude-page-post .notion-simple-table tr:not(:first-child):nth-child(odd) td {
+        background: #18181b !important;
+      }
+      .dark #theme-claude.claude-page-post .notion-simple-table tr:not(:first-child):nth-child(even) td,
+      html[data-theme='dark'] #theme-claude.claude-page-post .notion-simple-table tr:not(:first-child):nth-child(even) td {
+        background: #27272a !important;
+      }
+
       /* Hide scrollbar utility */
       .scroll-hidden::-webkit-scrollbar { display: none; }
       .scroll-hidden {
