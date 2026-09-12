@@ -84,13 +84,16 @@ export default function DarkModeButton({ className = '' }) {
   }
 
   return (
-    <div className={`${className} flex justify-center dark:text-gray-200 text-gray-800`}>
-      <div
+    <div className={`${className} flex justify-center`}>
+      <button
+        type='button'
         id='darkModeButton'
+        aria-label={isDarkMode ? '切换到浅色模式' : '切换到深色模式'}
+        aria-pressed={isDarkMode}
         onClick={handleToggle}
-        className='hover:scale-110 cursor-pointer transform duration-200 w-5 h-5'>
+        className='claude-theme-toggle'>
         {isDarkMode ? <Sun /> : <Moon />}
-      </div>
+      </button>
     </div>
   )
 }

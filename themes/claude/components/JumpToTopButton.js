@@ -1,35 +1,59 @@
 import { useGlobal } from '@/lib/global'
 import { useEffect, useState } from 'react'
 
+const getScrollRoot = () => {
+  if (typeof document === 'undefined') return null
+  return document.getElementById('container-inner') || document.scrollingElement
+}
+
 /**
  * 跳转到网页顶部
- * 当屏幕下滑500像素后会出现该控件
- * @param targetRef 关联高度的目标html标签
- * @param showPercent 是否显示百分比
- * @returns {JSX.Element}
- * @constructor
+ * 首页主栏是内部滚动容器，不能只听 window。
  */
 const JumpToTopButton = () => {
   const { locale } = useGlobal()
   const [show, switchShow] = useState(false)
-  const scrollListener = () => {
-    const scrollY = window.pageYOffset
-    const shouldShow = scrollY > 200
-    if (shouldShow !== show) {
-      switchShow(shouldShow)
-    }
-  }
 
   useEffect(() => {
-    document.addEventListener('scroll', scrollListener, { passive: true })
-    return () => document.removeEventListener('scroll', scrollListener)
-  }, [show])
+    const root = getScrollRoot()
+    if (!root) return undefined
 
-  return <div title={locale.POST.TOP}
-        className={(show ? ' opacity-100 ' : 'invisible  opacity-0') + ' transition-all duration-300 flex items-center justify-center cursor-pointer bg-black h-10 w-10 bg-opacity-40 rounded-sm'}
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-    ><i className='fas fa-angle-up text-white ' />
-    </div>
+    const onScroll = () => {
+      const top = root === document.scrollingElement ? window.pageYOffset : root.scrollTop
+      switchShow(top > 200)
+    }
+
+    onScroll()
+    root.addEventListener('scroll', onScroll, { passive: true })
+    if (root !== document.scrollingElement) {
+      window.addEventListener('scroll', onScroll, { passive: true })
+    }
+
+    return () => {
+      root.removeEventListener('scroll', onScroll)
+      window.removeEventListener('scroll', onScroll)
+    }
+  }, [])
+
+  const handleClick = () => {
+    const root = getScrollRoot()
+    if (root && root !== document.scrollingElement) {
+      root.scrollTo({ top: 0, behavior: 'smooth' })
+      return
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  return (
+    <button
+      type='button'
+      title={locale.POST.TOP}
+      aria-label={locale.POST.TOP}
+      className={`claude-jump-top${show ? ' is-visible' : ''}`}
+      onClick={handleClick}>
+      <i className='fas fa-angle-up' aria-hidden='true' />
+    </button>
+  )
 }
 
 export default JumpToTopButton

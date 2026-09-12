@@ -8,11 +8,13 @@ import dynamic from 'next/dynamic'
 import SmartLink from '@/components/SmartLink'
 import { useRouter } from 'next/router'
 import { createContext, useContext, useEffect, useRef, memo } from 'react'
+import Head from 'next/head'
 import BlogPostBar from './components/BlogPostBar'
 import CONFIG from './config'
 import { Style } from './style'
 import Catalog from './components/Catalog'
 import ProfileHome from './components/ProfileHome'
+import HomeIntro, { homeIntroHeadScript } from './components/HomeIntro'
 
 const AlgoliaSearchModal = dynamic(
   () => import('@/components/AlgoliaSearchModal'),
@@ -111,10 +113,16 @@ const LayoutBase = props => {
 
   return (
     <ThemeGlobalSimple.Provider value={{ searchModal }}>
+      {isHomePage && (
+        <Head>
+          <script dangerouslySetInnerHTML={homeIntroHeadScript} />
+        </Head>
+      )}
       <div
         id='theme-claude'
         className={`${siteConfig('FONT_STYLE')} ${isHomePage ? 'claude-page-home' : 'claude-page-subpage'} h-screen flex flex-col overflow-hidden`}>
         <Style />
+        {isHomePage && <HomeIntro />}
 
         {siteConfig('SIMPLE_TOP_BAR', null, CONFIG) && <TopBar {...props} />}
 
@@ -142,8 +150,9 @@ const LayoutBase = props => {
               {/* 内容区域 */}
               <div className='py-6 md:py-10'>
                 {onLoading ? (
-                  <div className='flex items-center justify-center min-h-[500px] w-full'>
-                    <div className='animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-gray-900 dark:border-white'></div>
+                  <div className='flex items-center justify-center min-h-[500px] w-full' role='status' aria-live='polite'>
+                    <div className='claude-loading-spinner' aria-hidden='true' />
+                    <span className='sr-only'>正在加载</span>
                   </div>
                 ) : (
                   <>{children}</>
