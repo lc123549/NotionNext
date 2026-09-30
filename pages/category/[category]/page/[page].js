@@ -22,6 +22,7 @@ export async function getStaticProps({ params: { category, page } }) {
   props.posts = props.allPages
     ?.filter(page => page.type === 'Post' && page.status === 'Published')
     .filter(post => post && post.category && post.category.includes(category))
+    .sort((a, b) => (b?.publishDate ?? 0) - (a?.publishDate ?? 0))
   // 处理文章页数
   props.postCount = props.posts.length
   const POSTS_PER_PAGE = siteConfig('POSTS_PER_PAGE', 12, props?.NOTION_CONFIG)

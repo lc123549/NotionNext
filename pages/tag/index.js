@@ -20,6 +20,9 @@ export async function getStaticProps(req) {
 
   const from = 'tag-index-props'
   const props = await fetchGlobalAllData({ from, locale })
+  props.posts = (props.allPages || [])
+    .filter(page => page.type === 'Post' && page.status === 'Published')
+    .sort((a, b) => (b?.publishDate ?? 0) - (a?.publishDate ?? 0))
   delete props.allPages
   return {
     props,

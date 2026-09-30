@@ -20,6 +20,9 @@ import PostTopNav from './components/PostTopNav'
 import PostTocRail from './components/PostTocRail'
 import FloatTocButton from './components/FloatTocButton'
 import StripImageSourceCaption from './components/StripImageSourceCaption'
+import BlogArchiveItem from './components/BlogArchiveItem'
+import BlogListPage from './components/BlogListPage'
+import { BlogItem } from './components/BlogItem'
 
 const AlgoliaSearchModal = dynamic(
   () => import('@/components/AlgoliaSearchModal'),
@@ -28,9 +31,6 @@ const AlgoliaSearchModal = dynamic(
 
 // 主题组件
 
-const BlogArchiveItem = dynamic(() => import('./components/BlogArchiveItem'), {
-  ssr: false
-})
 const ArticleLock = dynamic(() => import('./components/ArticleLock'), {
   ssr: false
 })
@@ -45,9 +45,6 @@ const JumpToTopButton = dynamic(() => import('./components/JumpToTopButton'), {
 })
 const Footer = dynamic(() => import('./components/Footer'), { ssr: false })
 const WWAds = dynamic(() => import('@/components/WWAds'), { ssr: false })
-const BlogListPage = dynamic(() => import('./components/BlogListPage'), {
-  ssr: false
-})
 const RecommendPosts = dynamic(() => import('./components/RecommendPosts'), {
   ssr: false
 })
@@ -399,27 +396,39 @@ const Layout404 = props => {
 /**
  * 分类列表
  */
+const byPublishDateDesc = (a, b) => (b?.publishDate ?? 0) - (a?.publishDate ?? 0)
+
 const LayoutCategoryIndex = props => {
-  const { categoryOptions } = props
+  const { categoryOptions, posts = [] } = props
+  const groups = (categoryOptions || [])
+    .map(category => ({
+      name: category.name,
+      posts: posts
+        .filter(post => post?.category === category.name)
+        .sort(byPublishDateDesc)
+    }))
+    .filter(category => category.posts.length > 0)
+
   return (
-    <>
-      <div id='category-list' className='duration-200 flex flex-wrap gap-2'>
-        {categoryOptions?.map(category => {
-          return (
-            <SmartLink
-              key={category.name}
-              href={`/category/${category.name}`}
-              passHref
-              legacyBehavior>
-              <div className='claude-nav-link cursor-pointer'>
-                <i className='mr-2 fas fa-folder text-xs' />
-                {category.name}({category.count})
-              </div>
+    <div id='category-list' className='flex flex-col gap-10'>
+      {groups.map(category => (
+        <section key={category.name}>
+          <h2 className='text-xl font-semibold mb-4'>
+            <SmartLink href={`/category/${encodeURIComponent(category.name)}`}>
+              {category.name}
             </SmartLink>
-          )
-        })}
-      </div>
-    </>
+            <span className='ml-2 text-sm font-normal text-gray-400'>
+              {category.posts.length}
+            </span>
+          </h2>
+          <div className='claude-home-cards'>
+            {category.posts.map(post => (
+              <BlogItem key={post.id || post.slug} post={post} />
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
   )
 }
 
@@ -427,24 +436,36 @@ const LayoutCategoryIndex = props => {
  * 标签列表
  */
 const LayoutTagIndex = props => {
-  const { tagOptions } = props
+  const { tagOptions, posts = [] } = props
+  const groups = (tagOptions || [])
+    .map(tag => ({
+      name: tag.name,
+      posts: posts
+        .filter(post => post?.tags?.includes(tag.name))
+        .sort(byPublishDateDesc)
+    }))
+    .filter(tag => tag.posts.length > 0)
+
   return (
-    <>
-      <div id='tags-list' className='duration-200 flex flex-wrap gap-2'>
-        {tagOptions.map(tag => {
-          return (
-            <SmartLink
-              key={tag.name}
-              href={`/tag/${encodeURIComponent(tag.name)}`}
-              passHref
-              className='claude-nav-link cursor-pointer text-sm'>
-              <i className='mr-1 fas fa-tag text-xs' />
-              {tag.name + (tag.count ? `(${tag.count})` : '')}
+    <div id='tags-list' className='flex flex-col gap-10'>
+      {groups.map(tag => (
+        <section key={tag.name}>
+          <h2 className='text-xl font-semibold mb-4'>
+            <SmartLink href={`/tag/${encodeURIComponent(tag.name)}`}>
+              {tag.name}
             </SmartLink>
-          )
-        })}
-      </div>
-    </>
+            <span className='ml-2 text-sm font-normal text-gray-400'>
+              {tag.posts.length}
+            </span>
+          </h2>
+          <div className='claude-home-cards'>
+            {tag.posts.map(post => (
+              <BlogItem key={post.id || post.slug} post={post} />
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
   )
 }
 

@@ -17,6 +17,9 @@ export default function Category(props) {
 
 export async function getStaticProps({ locale }) {
   const props = await fetchGlobalAllData({ from: 'category-index-props', locale })
+  props.posts = (props.allPages || [])
+    .filter(page => page.type === 'Post' && page.status === 'Published')
+    .sort((a, b) => (b?.publishDate ?? 0) - (a?.publishDate ?? 0))
   delete props.allPages
   return {
     props,

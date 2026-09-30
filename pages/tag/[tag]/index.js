@@ -21,6 +21,7 @@ export async function getStaticProps({ params: { tag }, locale }) {
   props.posts = props.allPages
     ?.filter(page => page.type === 'Post' && page.status === 'Published')
     .filter(post => post && post?.tags && post?.tags.includes(tag))
+    .sort((a, b) => (b?.publishDate ?? 0) - (a?.publishDate ?? 0))
 
   // 处理文章页数
   props.postCount = props.posts.length
